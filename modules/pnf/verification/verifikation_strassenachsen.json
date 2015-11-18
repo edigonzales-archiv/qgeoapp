@@ -1,0 +1,16 @@
+{
+  "verification": [
+    {
+      "id": "strassenachsen_tests", 
+      "name": "Strassenachsentests erzeugen", 
+      "group": "Strassenachsen", 
+      "file": "complexchecks.strassenachsentests_erzeugen"
+    },
+    {
+      "id": "strassenachsentests_anzeigen", 
+      "name": "Strassenachsentests anzeigen", 
+      "group": "Strassenachsen", 
+      "file": "complexchecks.strassenachsentests_anzeigen"
+    }
+  ]
+}

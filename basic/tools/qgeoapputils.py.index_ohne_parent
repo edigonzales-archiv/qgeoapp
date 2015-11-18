@@ -1,0 +1,128 @@
+# -*- coding: utf8 -*-
+
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+from PyQt4 import QtXml
+from qgis.core import *
+from qgis.gui import *
+
+import time, os, json
+
+class QGeoAppUtils: 
+    def loadLayer(self, iface, layer, group):
+        # check the setting/parameters first
+        settings = QSettings("CatAIS","QGeoApp")
+        ili = str(settings.value("project/active/ili").toString())
+        moduleName = str(settings.value("project/active/module").toString())
+        storagetype = str(settings.value("project/active/storagetype").toString())
+        dbhost = str(settings.value("project/active/host").toString())
+        dbport = str(settings.value("project/active/port").toString())
+        dbname = str(settings.value("project/active/dbname").toString())
+        dbschema = str(settings.value("project/active/schema").toString())
+        dbuser = str(settings.value("project/active/readuser").toString())
+        dbpwd = str(settings.value("project/active/readpwd").toString())
+        dbadmin = str(settings.value("project/active/writeuser").toString())
+        dbadminpwd = str(settings.value("project/active/writepwd").toString())
+        
+        if dbhost == "" or dbport == "" or dbname == "" or dbschema == "" or dbuser == "" or dbpwd == ""  or dbadmin == "" or dbadminpwd == "":
+            QMessageBox.critical(None, "QGeoApp.Utils",  QCoreApplication.translate("QGeoApp.Utils", "Missing database parameter. Cannot load layer."))                
+            return
+
+        if ili == "" or moduleName == "" or storagetype == "":
+            QMessageBox.critical(None, "QGeoApp.Utils",  QCoreApplication.translate("QGeoApp.Utils", "Missing parameter. Cannot load layer."))                
+            return
+
+        # load layer to canvas and append it to group 
+        try:
+#            print layer
+            featureType = str(layer["featuretype"])
+            title = unicode(layer["title"])
+            geomCol = str(layer["geom"])
+            keyCol = str(layer["key"])
+            style = str(layer["style"])
+            group = str(layer["group"])
+            
+            uri = QgsDataSourceURI()
+            if str(layer["readonly"]) == "true":
+                uri.setConnection(dbhost, dbport, dbname, dbuser, dbpwd)
+            else:
+                uri.setConnection(dbhost, dbport, dbname, dbadmin, dbadminpwd)
+
+            uri.setDataSource(dbschema, featureType, geomCol, "", keyCol)
+            vlayer = QgsVectorLayer(uri.uri(), title, storagetype)
+            
+            qml = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qgeoapp/modules/"+moduleName.lower()+"/models/"+ili.lower()+"/config/presentations/"+style))
+            vlayer.loadNamedStyle(qml)
+
+            if not vlayer.isValid():
+                print "Layer failed to load!"        
+            else:
+                QgsMapLayerRegistry.instance().addMapLayer(vlayer)
+                
+            iface.legendInterface().setLayerVisible(vlayer, False)      
+            iface.mapCanvas().refresh()   
+                
+            legendTree = iface.mainWindow().findChild(QDockWidget,"Legend").findChild(QTreeWidget)   
+            legendTree.collapseItem(legendTree.currentItem())
+            
+        
+            # add parent group element
+            parentGroupName = "Amtliche Vermessung"
+            grpList = iface.legendInterface().groups()
+            grpIdx = grpList.indexOf(parentGroupName)
+            self.pG = 0
+            if grpIdx < 0:
+                self.pG = iface.legendInterface().addGroup(parentGroupName)
+    
+                print "pG: "  + str(self.pG)
+    
+            grpList = iface.legendInterface().groups()
+            grpIdx = grpList.indexOf(group)
+            
+            if grpIdx >= 0:
+#                print "group zum wiederholten male: " + str(group)        
+#                print "RelationShip: " 
+#                print iface.legendInterface().groupLayerRelationship()    
+#                print "Groups: " 
+#                print  list(iface.legendInterface().groups())            
+                grpIdxAbs = self.getGroupIndex(iface, group)
+#                print "grpIdxAbs"  + str(grpIdxAbs)
+                if grpIdxAbs <> 0:
+                    iface.legendInterface().moveLayer(vlayer, grpIdxAbs-2)
+                    iface.legendInterface().setLayerVisible(vlayer, False)
+                    iface.legendInterface().setGroupExpanded(grpIdxAbs-2, False)
+                    iface.legendInterface().setGroupVisible(grpIdxAbs-2, False)                
+            else:
+                # Das mit dem Index bei "setGroupExpanded" und 
+                # "setGroupVisible" verstehe ich nicht mehr ganz....
+                print "group zum ersten: " + str(group)
+                grpIdx = iface.legendInterface().addGroup(group, False, self.pG-1) # Minus 1, weil zuvor noch ein Layer hinzugefügt wird.
+                print iface.legendInterface().groupLayerRelationship()        
+                print list(iface.legendInterface().groups())                
+                
+                print "grpIdx: " + str(grpIdx)
+                grpIdxAbs = self.getGroupIndex(iface, group)   
+#                print "grpIdxAbs"  + str(grpIdxAbs)
+                
+                iface.legendInterface().moveLayer(vlayer, grpIdx-1)       
+                iface.legendInterface().setLayerVisible(vlayer, False)                
+
+#                iface.legendInterface().setGroupExpanded(grpIdx-2, False)
+#                iface.legendInterface().setGroupVisible(grpIdxAbs-2, False)
+            
+        except KeyError:
+            message = sys.exc_info()[0]                                        
+            QMessageBox.critical(None, "QGeoApp.Utils",  QCoreApplication.translate("QGeoApp.Utils", "Key not found in presentation definition. \nCannot load layer. \n\n") + str(message))                
+            return
+        
+        
+    def getGroupIndex(self, iface, groupName):
+        relationList = iface.legendInterface().groupLayerRelationship()
+        i = 0
+        for item in relationList:
+            if item[0] == groupName:
+                i = i  + 1
+                return i
+            i = i + 1
+        return 0
+

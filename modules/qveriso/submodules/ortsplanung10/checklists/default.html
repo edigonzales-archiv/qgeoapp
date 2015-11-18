@@ -1,0 +1,3916 @@
+<!DOCTYPE HTML>
+<html lang="de-CH">
+<head>
+  <title>Checkliste VeriSO</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="stylesheets/form.css" />
+  <link rel="stylesheet" href="stylesheets/modal.css" />
+  <script type="text/javascript" src="jquery-1.5.min.js"></script>
+  <script src="jquery.remember-state.js"></script>
+  <script src="jquery.urldecoder.min.js"></script>
+
+
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <script>
+    $(function() {
+    
+    	var fullPath = document.location.href;
+			var filename = fullPath.replace(/^.*(\\|\/|\:)/, '');
+    
+      $("form").rememberState(filename).submit(function() {
+        localStorage.setObject(filename, $(this).serializeArray());
+        return false;
+      });
+    });
+     
+  </script>
+  
+
+</head>
+<body>
+
+
+	<!--<script type="text/javascript">
+
+		urlinfo = $.url.parse(document.location.href);
+
+		document.write(urlinfo['params']['municipality']);
+	</script>-->
+	
+	<h1>Verifikation DM.01-Migration und EE Gebäudeadressen</h1>
+
+  <form action="" method="post">
+    <fieldset> 
+    <legend id="legend">Allgemeine Informationen</legend> 	       
+      <dl>
+        <dt><label>Operat</label></dt>
+        <dd><input type="text" name="operat" id="operat" /></dd>
+        
+        <dt><label>Los</label></dt>
+        <dd><input type="text" name="los" id="los" /></dd>
+        
+        <dt><label>Lieferdatum</label></dt>
+        <dd><input type="date" name="lieferdatum" id="lieferdatum" /></dd>
+        
+   
+        
+        <dt><label>Version</label></dt>
+        <dd><input type="number" name="version" id="version" /></dd>
+
+        <dt><label>Unternehmer</label></dt>
+        <dd><input type="text" name="unternehmer" id="unternehmer" /></dd>
+           
+<!--         <dt><label>System</label></dt>
+        <dd><input type="text" name="system" id="system" /></dd> -->
+        
+				<dt><label>System:</label></dt>  
+				<dd><select name="vermessungssystem">
+            <option value="geonis">Geonis</option>
+            <option value="geospro">GeosPro</option>
+            <option value="topobase">Topobase</option>            
+        		</select> 
+       	</dd>           
+        
+        <dt><label>Sachbearbeiter (Unternehmer)</label></dt>
+        <dd><input type="text" name="bearbeiter_unternehmer" id="bearbeiter_unternehmer" /></dd>
+        
+       	<dt><label>Sachbearbeiter (AGI)</label></dt>
+       	<dd><input type="text" name="bearbeiter_agi" id="bearbeiter_agi" /></dd>
+       	
+        <dt><label>Verifikationsdatum</label></dt>
+        <dd><input type="date" name="verifikationsdatum" id="verifikationsdatum" /></dd>  
+        
+       	<dt><label>BfS-Nummer Gemeinde</label></dt>
+       	<dd><input type="number" name="bfsnrgemeinde" id="bfsnrgemeinde" /></dd>             
+       	
+       	<dt><label>BfS-Nummer Nachbargemeinden</label></dt>
+       	<dd><input type="text" name="bfsnrnachbar" id="bfsnrnachbar" /></dd>       	
+       	
+      </dl>        
+    </fieldset>
+
+    
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend">V+D</legend>    
+      <dl>
+        <dt><label>CheckCH durchgeführt?</label></dt>
+        <dd>
+          <ul>
+            <li>
+              <label>
+                <input type="radio" name="checkch" id="checkch_ja" value="Ja" />
+                Ja
+              </label>
+
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="checkch" id="checkch_nein" value="Nein" />
+                Nein
+              </label>
+            </li>
+          </ul>
+        </dd>
+
+        <dt><label>Fehler vorhanden?</label></dt>
+        <dd>
+          <ul>
+            <li>
+              <label>
+                <input type="radio" name="checkchfehler" id="checkchfehler_ja" value="Ja" />
+                Ja
+              </label>
+
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="checkchfehler" id="checkchfehler_nein" value="Nein" />
+                Nein
+              </label>
+            </li>
+          </ul>
+        </dd>
+
+        <dt><label>Checkdatum</label></dt>
+        <dd><input type="date" name="checkdatum" id="checkdatum" /></dd>  
+
+      </dl>
+    </fieldset>    
+
+    <fieldset>
+    	<legend id="legend">Topic ohne Daten</legend>    
+      <dl>
+        <dt><label>Folgende Topics dürfen keine Daten haben</label></dt>
+        <dd>
+          <ul>
+
+            <li>
+              <label>
+                <input type="checkbox" name="ohnerohrleitung" value="ohnerohrleitung" />
+                Rohrleitung
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="ohnerutschgebiete" value="ohnerutschgebiete" />
+                Rutschgebiete
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="ohneplzortschaft" value="ohneplzortschaft" />
+                PLZOrtschaft
+              </label>
+            </li>
+          </ul>
+ 				</dd>
+      
+       	<dt><label>Weitere Topics ohne Daten</label></dt>
+       	<dd><input type="text" name="ohneweitere" id="ohneweitere" /></dd>       	                     	
+      </dl> 
+
+    </fieldset>    
+    
+
+    <fieldset>
+    	<legend id="legend">Abzuliefernde Dokumente</legend>    
+      <dl>
+        <dt><label>Dokumente im Anhang?</label></dt>
+        <dd>
+          <ul>
+            <li>
+              <label>
+                <input type="checkbox" name="dokutechnbericht" value="dokutechnbericht" />
+                Technischer Bericht
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="dokuitfso" value="dokuitfso" />
+                ITF SO
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="dokucheckso" value="dokucheckso" />
+                Dokumente CheckSO
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="dokucheckch" value="dokucheckch" />
+                Dokumente CheckCH
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="dokuhandriss" value="dokuhandriss" />
+                Handrisse Erfassung Gebäudeeingänge
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="dokuadressplan" value="dokuadressplan" />
+                Kopie Gebäudeadressierungsplan
+              </label>
+            </li>                                    
+          </ul>
+ 				</dd>
+      </dl>
+    </fieldset>  
+
+
+    <fieldset>
+    	<legend id="legend">Darstellung Plan für das Grundbuch</legend>    
+      <dl>
+        <dt><label>Weisung &laquo;Darstellung des Planes für das Grundbuch: 2007&raquo; umgesetzt?</label></dt>
+        <dd>
+          <ul>
+            <li>
+              <label>
+                <input type="radio" name="darstellungplan" id="darstellungplan_ja" value="Ja" />
+                Ja
+              </label>
+
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="darstellungplan" id="darstellungplan_nein" value="Nein" />
+                Nein
+              </label>
+            </li>
+          </ul>
+        </dd>
+      </dl>
+    </fieldset>  
+    
+    <fieldset>
+    	<legend id="legend">Bemerkungen</legend>    
+      <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+        <dd><textarea name="allgemeinbemerkungen" id="allgemeinbemerkungen"></textarea></dd>
+      </dl>
+    </fieldset>      
+
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="fp12">FixpunkteKategorie 1 + 2</a></legend>
+    	<fieldset id="level2">
+    		<legend  id="level2">LFP1Nachfuehrung</legend>
+    		<dl>
+
+	        <dt><label><a href="#?w=500" rel="pop_fp1lfp1nfnbident" class="poplight"><tt>NBIdent</tt> (CH0100000001)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp1lfp1nfnbident" id="fp1lfp1nfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="fp1lfp1nfnbident" id="fp1lfp1nfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	      
+    		</dl>  
+    	</fieldset>
+    	
+    	<fieldset id="level2">
+    		<legend  id="level2">LFP1</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_fp1lfp1daten" class="poplight">LFP1 vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp1lfp1daten" id="fp1lfp1daten_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp1lfp1daten" id="fp1lfp1daten_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>   
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp1lfp1ausserhalb" class="poplight">Punkte ausserhalb Perimeter?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp1lfp1ausserhalb" id="fp1lfp1ausserhalb_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp1lfp1ausserhalb" id="fp1lfp1ausserhalb_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>    	       
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp1lfp1nbident" class="poplight"><tt>NBIdent</tt> (CH030000YYYY)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp1lfp1nbident" id="fp1lfp1nbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp1lfp1nbident" id="fp1lfp1nbident_nein" value="Falsch" />
+ 	               Falsch
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp1lfp1punktzeichen" class="poplight">Attribut <tt>Punktzeichen</tt> leer?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp1lfp1punktzeichen" id="fp1lfp1punktzeichen_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp1lfp1punktzeichen" id="fp1lfp1punktzeichen_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>    	  	          	        		
+    		</dl>  
+    	</fieldset>  		
+    	<fieldset id="level2">
+    		<legend id="level2">HFP1Nachfuehrung</legend>
+    		<dl>
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp1hfp1nfnbident" class="poplight"><tt>NBIdent</tt> (CH0100000001)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp1hfp1nfnbident" id="fp1hfp1nfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="fp1hfp1nfnbident" id="fp1hfp1nfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	      
+    		</dl>  
+    	</fieldset>
+
+    	<fieldset id="level2">
+    		<legend  id="level2">HFP1</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_fp1hfp1daten" class="poplight">HFP1 vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp1hfp1daten" id="fp1hfp1daten_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp1hfp1daten" id="fp1hfp1daten_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>   
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp1hfp1ausserhalb" class="poplight">Punkte ausserhalb Perimeter?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp1hfp1ausserhalb" id="fp1hfp1ausserhalb_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp1hfp1ausserhalb" id="fp1hfp1ausserhalb_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>    	       
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp1hfp1nbident" class="poplight"><tt>NBIdent</tt> (CH02000000SO)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp1hfp1nbident" id="fp1hfp1nbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp1hfp1nbident" id="fp1hfp1nbident_nein" value="Falsch" />
+ 	               Falsch
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       	  	          	        		
+    		</dl>  
+    	</fieldset>    
+    	<fieldset id="level2">
+    		<legend  id="level2">LFP2Nachfuehrung</legend>
+    		<dl>
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp2lfp2nfnbident" class="poplight"><tt>NBIdent</tt> (SO0100000001)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp2lfp2nfnbident" id="fp2lfp2nfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="fp2lfp2nfnbident" id="fp2lfp2nfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+
+    		</dl>  
+    	</fieldset>
+
+    	<fieldset id="level2">
+    		<legend  id="level2">LFP2</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_fp2lfp2daten" class="poplight">LFP2 vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp2lfp2daten" id="fp2lfp2daten_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp2lfp2daten" id="fp2lfp2daten_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>   
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp2lfp2ausserhalb" class="poplight">Punkte ausserhalb Perimeter?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp2lfp2ausserhalb" id="fp2lfp2ausserhalb_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp2lfp2ausserhalb" id="fp2lfp2ausserhalb_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>    	       
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp2lfp2nbident" class="poplight"><tt>NBIdent</tt> (CH030000YYYY)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp2lfp2nbident" id="fp2lfp2nbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp2lfp2nbident" id="fp2lfp2nbident_nein" value="Falsch" />
+ 	               Falsch
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp2lfp2punktzeichen" class="poplight">Attribut <tt>Punktzeichen</tt> leer?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp2lfp2punktzeichen" id="fp2lfp2punktzeichen_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp2lfp2punktzeichen" id="fp2lfp2punktzeichen_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>    	  	          	        		
+    		</dl>  
+    	</fieldset>  		
+    	
+    	<fieldset id="level2">
+    		<legend  id="level2">HFP2Nachfuehrung</legend>
+    		<dl> 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp2hfp2nfnbident" class="poplight"><tt>NBIdent</tt> (SO0100000001)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp2hfp2nfnbident" id="fp2hfp2nfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="fp2hfp2nfnbident" id="fp2hfp2nfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+
+    		</dl>  
+    	</fieldset>
+
+    	<fieldset id="level2">
+    		<legend  id="level2">HFP2</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_fp2hfp2daten" class="poplight">HFP2 vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp2hfp2daten" id="fp2hfp2daten_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp2hfp2daten" id="fp2hfp2daten_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>      	  	          	        		
+    		</dl>  
+    	</fieldset>  	
+    		
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="fp1_2bemerkungen" id="fp1_2bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>   
+    </fieldset>    
+
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="fp3hilfsfp">FixpunkteKategorie 3 + HilfsFP</a></legend>
+    	<fieldset id="level2">
+    		<legend  id="level2">LFP3Nachfuehrung</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_fp3lfp3nfnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3lfp3nfnbident" id="fp3lfp3nfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="fp3lfp3nfnbident" id="fp3lfp3nfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	      
+    		</dl>  
+    	</fieldset>
+
+    	<fieldset id="level2">
+    		<legend  id="level2">LFP3</legend>
+    		<dl>
+  	       
+	        <dt><label><a href="#?w=500" rel="pop_fp3lfp3ausserhalb" class="poplight">Punkte ausserhalb Perimeter?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3lfp3ausserhalb" id="fp3lfp3ausserhalb_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp3lfp3ausserhalb" id="fp3lfp3ausserhalb_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>    	       
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp3lfp3nbident" class="poplight"><tt>NBIdent</tt> (SO020000YYYY)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3lfp3nbident" id="fp3lfp3nbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp3lfp3nbident" id="fp3lfp3nbident_nein" value="Falsch" />
+ 	               Falsch
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp3lfp3punktzeichen" class="poplight"><tt>Punktzeichen</tt> = &laquo;6&raquo; (unversichert)?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3lfp3punktzeichen" id="fp3lfp3punktzeichen_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp3lfp3punktzeichen" id="fp3lfp3punktzeichen_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp3lfp3lagegenzuv" class="poplight">Plausibilität der Lagezuverlässigkeit und Lagegenauigkeit</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3lfp3lagegenzuv" id="fp3lfp3lagegenzuv_ja" value="Ja" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp3lfp3lagegenzuv" id="fp3lfp3lagegenzuv_nein" value="Nein" />
+ 	               mangelhaft
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>   
+ 	        	         	  	          	        		
+    		</dl>  
+    	</fieldset>  	
+    	
+    	<fieldset id="level2">
+    		<legend  id="level2">HilfsFPNachfuehrung</legend>
+    		<dl>
+    		
+	        <dt><label><a href="#?w=500" rel="pop_fp3hilfsnfnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3hilfsnfnbident" id="fp3hilfsnfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="fp3hilfsnfnbident" id="fp3hilfsnfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+    		</dl>  
+    	</fieldset>    		
+    	
+    	<fieldset id="level2">
+    		<legend  id="level2">Hilfsfixpunkte</legend>
+    		<dl>
+  	       
+	        <dt><label><a href="#?w=500" rel="pop_fp3hilfsvorhanden" class="poplight">Hilfsfixpunkte vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3hilfsvorhanden" id="fp3hilfsvorhanden_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp3hilfsvorhanden" id="fp3hilfsvorhanden_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>     	       
+  	       
+	        <dt><label><a href="#?w=500" rel="pop_fp3hilfsausserhalb" class="poplight">Punkte ausserhalb Perimeter?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3hilfsausserhalb" id="fp3hilfsausserhalb_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp3hilfsausserhalb" id="fp3hilfsausserhalb_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>    	       
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp3hilfsnbident" class="poplight"><tt>NBIdent</tt> (SO020000YYYY)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3hilfsnbident" id="fp3hilfsnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp3hilfsnbident" id="fp3hilfsnbident_nein" value="Falsch" />
+ 	               Falsch
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp3hilfspunktzeichen" class="poplight"><tt>Punktzeichen</tt> &ne; (<i>6,7</i>) (unversichert, weitere)?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3hilfspunktzeichen" id="fp3hilfspunktzeichen_ja" value="Ja" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp3hilfspunktzeichen" id="fp3hilfspunktzeichen_nein" value="Nein" />
+ 	               mangelhaft
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>          	  	          	        		
+    		</dl>  
+    	</fieldset> 
+    	
+    	     	
+    	<fieldset id="level2">
+    		<legend  id="level2">HFP3Nachfuehrung</legend>
+    		<dl>   		
+	        <dt><label><a href="#?w=500" rel="pop_fp3hfp3nfnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3hfp3nfnbident" id="fp3hfp3nfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="fp3hfp3nfnbident" id="fp3hfp3nfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	         	          	        		
+    		</dl>  
+    	</fieldset>   
+    	
+    	<fieldset id="level2">
+    		<legend  id="level2">HFP3</legend>
+    		<dl>
+  	       
+	        <dt><label><a href="#?w=500" rel="pop_fp3hfp3vorhanden" class="poplight">HFP3 vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3hfp3vorhanden" id="fp3hfp3vorhanden_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp3hfp3vorhanden" id="fp3hfp3vorhanden_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>     	       
+  	       
+	        <dt><label><a href="#?w=500" rel="pop_fp3hfp3ausserhalb" class="poplight">Punkte ausserhalb Perimeter?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3hfp3ausserhalb" id="fp3hfp3ausserhalb_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp3hfp3ausserhalb" id="fp3hfp3ausserhalb_nein" value="Nein" />
+ 	               Nein
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>    	       
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_fp3hfp3nbident" class="poplight"><tt>NBIdent</tt> (SO020000YYYY)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="fp3hfp3nbident" id="fp3hfp3nbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           <li>
+ 	             <label>
+ 	               <input type="radio" name="fp3hfp3nbident" id="fp3hfp3nbident_nein" value="Falsch" />
+ 	               Falsch
+ 	             </label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>          	         	  	          	        		
+    		</dl>  
+    	</fieldset>    	
+    	
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="fp3_hilfsbemerkungen" id="fp3_hilfsbemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>       	 		    	
+    	
+   	</fieldset>
+
+
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="bbeo">Bodenbedeckung + Einzelobjekte</legend></a>  
+    	<fieldset id="level2">
+    		<legend  id="level2">BBNachfuehrung</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_bbnfnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="bbnfnbident" id="bbnfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="bbnfnbident" id="bbnfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset>
+   	 	
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Allgemein</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_bbfliessrichtung" class="poplight">Fliessrichtungssymbol im ITF und in der Vermessungssoftware überprüfen</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="bbfliessrichtung" id="bbfliessrichtung_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="bbfliessrichtung" id="bbfliessrichtung_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset>     
+   	 	   	
+
+    	<fieldset id="level2">
+    		<legend  id="level2">BoFlaeche</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_bbqualitaet" class="poplight">Attribut <tt>Qualitaet</tt> = &laquo;0&raquo; (AV93) überprüfen.</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="bbqualitaet" id="bbqualitaet_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="bbqualitaet" id="bbqualitaet_nein" value="Nein" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset>     
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Gebaeudenummer</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_bbegiderfasst" class="poplight">EGID erfasst?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="bbegiderfasst" id="bbegiderfasst_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="bbegiderfasst" id="bbegiderfasst_nein" value="Nein" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_bbegidabklaerunggemeinde" class="poplight">Abklärung Widersprüche der EGID-Zuweisung mit der Gemeinde</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="bbegidabklaerunggemeinde" id="bbegidabklaerunggemeinde_ja" value="Ja" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="bbegidabklaerunggemeinde" id="bbegidabklaerunggemeinde_nein" value="Nein" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_bbegidgemeindekorrigiert" class="poplight">Hat die Gemeinde die Mängel bereits korrigiert?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="bbegidgemeindekorrigiert" id="bbegidgemeindekorrigiert_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="bbegidgemeindekorrigiert" id="bbegidgemeindekorrigiert_nein" value="Nein" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	 	              
+ 	       
+ 	     </dl>
+   	 	</fieldset>      	 	 	 	   	
+   	 	   	 	       	
+
+    	<fieldset id="level2">
+    		<legend  id="level2">EONachfuehrung</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_eonfnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eonfnbident" id="eonfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eonfnbident" id="eonfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset>    	
+    	
+    	<fieldset id="level2">
+    		<legend  id="level2">EO Flächenelement</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_eoqualitaet" class="poplight">Attribut <tt>Qualitaet</tt> = &laquo;0&raquo; (AV93) überprüfen.</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eoqualitaet" id="eoqualitaet_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eoqualitaet" id="eoqualitaet_nein" value="Nein" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_eo_28_x" class="poplight">Objekte mit <tt>Art</tt> = &laquo;28&raquo; (schmaler Weg) vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eo_28_x" id="eo_28_x_ja" value="Ja" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eo_28_x" id="eo_28_x_nein" value="Nein" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_eo_17_x" class="poplight">Objekte mit <tt>Art</tt> = &laquo;17&raquo; (Leitung_Mast) vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eo_17_x" id="eo_17_x_ja" value="Ja" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eo_17_x" id="eo_17_x_nein" value="Nein" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>   	       
+ 	       
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_eo_8" class="poplight">Bahnsteig (Perron) <tt>Art</tt> = &laquo;8&raquo;</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eo_8" id="eo_8_ja" value="Ja" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eo_8" id="eo_8_nein" value="Nein" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_eo_1" class="poplight">Lärmschutzwand <tt>Art</tt> = &laquo;1&raquo;</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eo_1" id="eo_1_ja" value="Ja" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eo_1" id="eo_1_nein" value="Nein" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	 
+ 	       
+ 	     </dl>
+   	 	</fieldset>     
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">EO Linienelement</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_eoqualitaetlinie" class="poplight">Attribut <tt>Qualitaet</tt> = &laquo;0&raquo; (AV93) überprüfen.</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eoqualitaetlinie" id="eoqualitaetlinie_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eoqualitaetlinie" id="eoqualitaetlinie_nein" value="Nein" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_eo_29" class="poplight">Objekte mit <tt>Art</tt> = &laquo;29&raquo; (Fahrspur)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eo_29" id="eo_29_ja" value="Ja" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eo_29" id="eo_29_nein" value="Nein" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_eo_17" class="poplight">Gittermasten <tt>Art</tt> = &laquo;17&raquo;</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eo_17" id="eo_17_ja" value="Ja" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eo_17" id="eo_17_nein" value="Nein" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_eo_33" class="poplight">Bahngeleise in einem Tunnel <tt>Art</tt> = &laquo;33&raquo; (Bahngeleise überdeckt)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eo_33" id="eo_33_ja" value="Ja" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eo_33" id="eo_33_nein" value="Nein" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	 
+ 	       
+ 	     </dl>
+   	 	</fieldset> 
+   	 	
+    	
+    	<fieldset id="level2">
+    		<legend  id="level2">EO Punktelement</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_eoqualitaetpunkt" class="poplight">Attribut <tt>Qualitaet</tt> = &laquo;0&raquo; (AV93) überprüfen.</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eoqualitaetpunkt" id="eoqualitaetpunkt_ja" value="Ja" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eoqualitaetpunkt" id="eoqualitaetpunkt_nein" value="Nein" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	      
+ 	     </dl>
+   	 	</fieldset>     	
+    
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="bb_bemerkungen" id="bb_bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>       	 		    	
+    	
+   	</fieldset>
+
+
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="hoehen">Hoehen</a></legend>  
+    	<fieldset id="level2">
+    		<legend  id="level2">HONachfuehrung</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_honfnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="honfnbident" id="honfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="honfnbident" id="honfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset>
+
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="ho_bemerkungen" id="ho_bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>       	 		    	
+    	
+   	</fieldset>
+ 	 	
+   	 	
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="nomenklatur">Nomenklatur</a> </legend>    
+    	<fieldset id="level2">
+    		<legend  id="level2">NKNachfuehrung</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_nknfnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="nknfnbident" id="nknfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="nknfnbident" id="nknfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset>    		 
+   	 		
+    	<fieldset id="level2">
+    		<legend  id="level2">Ortsnamen + Geländenamen</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_nonamenvorhanden" class="poplight">Ortsnamen und Geländenamen vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="nonamenvorhanden" id="nonamenvorhanden_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="nonamenvorhanden" id="nonamenvorhanden_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_ortsnameposplacement" class="poplight">OrtsnamePos gut platziert?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="ortsnameposplacement" id="ortsnameposplacement_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="ortsnameposplacement" id="ortsnameposplacement_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	       
+ 	     </dl>
+   	 	</fieldset>   	 	
+
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="no_bemerkungen" id="no_bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>       	 		    	
+    	
+   	</fieldset>
+   	
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="liegenschaften">Liegenschaften</a></legend>     	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">LSNachfuehrung</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_lsnfnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="lsnfnbident" id="lsnfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="lsnfnbident" id="lsnfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+       
+ 	     </dl>
+   	 	</fieldset>   
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Grenzpunkte</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_lshgpalt" class="poplight">Plausibilitätskontrolle <tt>HoheitsgrenzsteinAlt</tt>?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="lshgpalt" id="lshgpalt_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="lshgpalt" id="lshgpalt_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_lsexaktdef" class="poplight">Attribut <tt>exakt definiert</tt> richtig?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="lsexaktdef" id="lsexaktdef_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="lsexaktdef" id="lsexaktdef_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	    
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_lslagezuvnein" class="poplight">Punkte mit Lagezuverlässigkeit &laquo;nein&raquo;? Wenn ja, warum?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="lslagezuvnein" id="lslagezuvnein_ja" value="Richtig" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="lslagezuvnein" id="lslagezuvnein_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>   	          
+       
+ 	     </dl>
+   	 	</fieldset>   
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">ProjGrundstueck</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_lsprojnbidend" class="poplight"><tt>NBIdent</tt> (SO020000XXXX), bei Fusion SO020000XXXX, SO030000XXXX ...</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="lsprojnbidend" id="lsprojnbidend_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="lsprojnbidend" id="lsprojnbidend_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+       
+ 	     </dl>
+   	 	</fieldset>
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Grundstueck</legend>
+    		<dl>
+    		
+	        <dt><label><a href="#?w=500" rel="pop_lsvollstaendig" class="poplight">Attribut <tt>Vollstaendigkeit</tt> = vollständig?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="lsvollstaendig" id="lsvollstaendig_ja" value="Richtig" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="lsvollstaendig" id="lsvollstaendig_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	           		
+	        <dt><label><a href="#?w=500" rel="pop_lsgrunbidend" class="poplight"><tt>NBIdent</tt> (SO020000XXXX), bei Fusion SO020000XXXX, SO030000XXXX ...</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="lsgrunbidend" id="lsgrunbidend_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="lsgrunbidend" id="lsgrunbidend_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+       
+ 	     </dl>
+   	 	</fieldset>        	 	     	 		   	 		 	
+
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="ls_bemerkungen" id="ls_bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>       	 		    	
+    	
+   	</fieldset>
+
+
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="rohrleitung">Rohrleitungen</a></legend>    	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">RLNachfuehrung</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_rlnfnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="rlnfnbident" id="rlnfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="rlnfnbident" id="rlnfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset> 	
+   	 	
+
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Leitungsobjekt</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_rlobjvorhanden" class="poplight">Leitungsobjekte vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="rlobjvorhanden" id="rlobjvorhanden_ja" value="Richtig" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="rlobjvorhanden" id="rlobjvorhanden_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+    		
+    		
+	        <dt><label><a href="#?w=500" rel="pop_rlqualitaet" class="poplight">Attribut <tt>Qualitaet</tt> = 0 (AV93)?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="rlqualitaet" id="rlqualitaet_ja" value="Richtig" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="rlqualitaet" id="rlqualitaet_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset>   	   	 		 	
+
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="ro_bemerkungen" id="ro_bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>       	 		    	
+    	
+		</fieldset> 
+		
+		
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="nummerierungsbereiche">Nummerierungsbereiche</a></legend>     	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Nummerierungsbereich</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_nbperimeter" class="poplight">Prüfen von <tt>Kt</tt> und <tt>NBNummer</tt> mit entsprechenden Perimetern (Gemeinde, Kanton, LK-Blätter)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="nbperimeter" id="nbperimeter_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="nbperimeter" id="nbperimeter_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_nbmin" class="poplight">Im Minimum die Nummerierungsbereiche mit den Perimetern Gemeinde und ev. LK-Blätter vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="nbmin" id="nbmin_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="nbmin" id="nbmin_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	       
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_nbgemperim" class="poplight">Perimeter von Tabelle Nummerierungsbereich identisch mit Geometrie aus Tabelle Gemeindegrenze</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="nbgemperim" id="nbgemperim_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="nbgemperim" id="nbgemperim_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>   	       
+ 	       
+ 	     </dl>
+   	 	</fieldset> 	
+   	 	
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="nb_bemerkungen" id="nb_bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>       	 		    	
+    	
+		</fieldset> 		
+		
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="hoheitsgrenzen">Hoheitsgrenzen</a> </legend>    	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">GEMNachfuehrung</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_rlnfnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="rlnfnbident" id="rlnfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="rlnfnbident" id="rlnfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset> 	
+   	 	
+			<fieldset id="level2">
+    		<legend  id="level2">Allgemein</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_gemgrenzevorhanden" class="poplight">Gemeindegrenze vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gemgrenzevorhanden" id="gemgrenzevorhanden_ja" value="Richtig" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gemgrenzevorhanden" id="gemgrenzevorhanden_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+           <li>
+              <label>
+                <input type="checkbox" name="gemgrenzevorhanden_io" value="gemgrenzevorhanden_io" />
+                i.O.
+              </label>
+            </li> 	           
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_bezirkvorhanden" class="poplight">Bezirksgrenzabschnitt vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="bezirkvorhanden" id="bezirkvorhanden_ja" value="Richtig" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="bezirkvorhanden" id="bezirkvorhanden_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+           <li>
+              <label>
+                <input type="checkbox" name="bezirkvorhanden_io" value="bezirkvorhanden_io" />
+                i.O.
+              </label>
+            </li> 	           
+ 	         </ul>
+ 	       </dd>  	
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_kantonvorhanden" class="poplight">Kantonsgrenzabschnitt vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="kantonvorhanden" id="kantonvorhanden_ja" value="Richtig" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="kantonvorhanden" id="kantonvorhanden_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+           <li>
+              <label>
+                <input type="checkbox" name="kantonvorhanden_io" value="kantonvorhanden_io" />
+                i.O.
+              </label>
+            </li> 	           
+ 	         </ul>
+ 	       </dd>  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_landvorhanden" class="poplight">Landesgrenzabschnitt vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="landvorhanden" id="landvorhanden_ja" value="Richtig" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="landvorhanden" id="landvorhanden_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+           <li>
+              <label>
+                <input type="checkbox" name="landvorhanden_io" value="landvorhanden_io" />
+                i.O.
+              </label>
+            </li> 	           
+ 	         </ul>
+ 	       </dd>   
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_hohvisuell" class="poplight">Visuelle Übereinstimmung der verschiedenen Hoheitsgrenzen?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="hohvisuell" id="hohvisuell_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="hohvisuell" id="hohvisuell_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+             
+ 	         </ul>
+ 	       </dd>   	       
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_hohcheckch" class="poplight">Korrekte Definition der Hoheitsgrenzen (CheckCH)?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="hohcheckch" id="hohcheckch_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="hohcheckch" id="hohcheckch_nein" value="Falsch" />
+ 	               	Mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_hohgpnummer" class="poplight">Stichprobenweise Kontrolle der GP-Nummern an Gemeindegrenze mit (erstvermessener) Gemeinde?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="hohgpnummer" id="hohgpnummer_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="hohgpnummer" id="hohgpnummer_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>    
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_hohgemname" class="poplight">Gemeindenamen richtig (siehe Amtliche Gemeindeverzeichnis)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="hohgemname" id="hohgemname_ja" value="Richtig" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="hohgemname" id="hohgemname_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>     	       	        
+ 	       	       	 	              
+ 	     </dl>
+   	 	</fieldset> 	
+   	 	
+
+			<fieldset id="level2">
+    		<legend  id="level2">Hoheitsgrenzpunkt</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_hgp_verteilung" class="poplight">Verteilung der Versicherungart?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="hgp_verteilung" id="hgp_verteilung_ja" value="Richtig" />
+            	    plausibel
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="hgp_verteilung" id="hgp_verteilung_nein" value="Falsch" />
+ 	               	nicht plausibel
+ 	             	</label>
+ 	           </li>
+	           
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_hgp_ndbident" class="poplight"><tt>NBIdent</tt> der nummerierten Hoheitsgrenzpunkte (Kantonsgrenze: SO0100000001, Landesgrenze:: SO0100000002)?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="hgp_ndbident" id="hgp_ndbident_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="hgp_ndbident" id="hgp_ndbident_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+               
+ 	         </ul>
+ 	       </dd>  	
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_hgphoheitsgrenzstein" class="poplight">Kontrolle des Attributes <tt>Hoheitsgrenzstein</tt> mit Inventar (Begehungsprotokolle)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="hgphoheitsgrenzstein" id="hgphoheitsgrenzstein_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="hgphoheitsgrenzstein" id="hgphoheitsgrenzstein_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+           
+ 	         </ul>
+ 	       </dd>  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_hgpexakt" class="poplight">Kontrolle der Attribute <tt>ExaktDefiniert</tt></a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="hgpexakt" id="hgpexaktlagezuv_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="hgpexakt" id="hgpexaktlagezuv_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+
+ 	         </ul>
+ 	       </dd>  
+
+	        <dt><label><a href="#?w=500" rel="pop_hgplagezuv" class="poplight">Kontrolle der Attribute <tt>LageZuv</tt></a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="hgplagezuv" id="hgpexaktlagezuv_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="hgplagezuv" id="hgpexaktlagezuv_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+
+ 	         </ul>
+ 	       </dd> 	       
+ 	         	       	       	 	              
+ 	     </dl>
+   	 	</fieldset> 	   	 	
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Bezirksgrenze</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_bezirkgueltigkeit" class="poplight">Kontrolle Attribut <tt>Gueltigkeit</tt> = rechtskräftig?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="bezirkgueltigkeit" id="bezirkgueltigkeit_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="bezirkgueltigkeit" id="bezirkgueltigkeit_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset> 
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Kantonsgrenze</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_kantongueltigkeit" class="poplight">Kontrolle Attribut <tt>Gueltigkeit</tt> = rechtskräftig?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="kantongueltigkeit" id="kantongueltigkeit_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="kantongueltigkeit" id="kantongueltigkeit_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset> 	   	 		
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Landesgrenze</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_landgueltigkeit" class="poplight">Kontrolle Attribut <tt>Gueltigkeit</tt> = rechtskräftig?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="landgueltigkeit" id="landgueltigkeit_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="landgueltigkeit" id="landgueltigkeit_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	     </dl>
+   	 	</fieldset> 	   	 	
+   	 	
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="hoh_bemerkungen" id="hoh_bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>       	 		    	
+    	
+		</fieldset> 			
+			
+
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="planeinteilung">Planeinteilung</a></legend>  	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Plan</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_plannbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="plannbident" id="plannbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="plannbident" id="plannbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_planzahl" class="poplight">Attribut <tt>Nummer</tt> darf nur Zahl sein.</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="planzahl" id="planzahl_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="planzahl" id="planzahl_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	       
+ 	     </dl>
+   	 	</fieldset> 	
+   	 	
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="pl_bemerkungen" id="pl_bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>   
+		</fieldset> 	  
+		
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="tseinteilung">TSEinteilung</a></legend>  	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Toleranzstufe</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_tsnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="tsnbident" id="tsnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="tsnbident" id="tsnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+
+ 	     </dl>
+   	 	</fieldset> 	
+   	 	
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="ts_bemerkungen" id="ts_bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>   
+		</fieldset> 		 
+		
+		
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="gebaeudeadressen">Gebaeudeadressen</a></legend>    	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">GEBNachfuehrung</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_gebnfnbident" class="poplight"><tt>NBIdent</tt> (SO020000XXXX)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebnfnbident" id="gebnfnbident_ja" value="Richtig" />
+            	    Richtig
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebnfnbident" id="gebnfnbident_nein" value="Falsch" />
+ 	               	Falsch
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>
+ 	     </dl>
+   	 	</fieldset> 	
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Allgemein</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_gebgeometrieachsen" class="poplight">Grobüberblick über die Definition der Strassenachsen (nur Geometrie)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebgeometrieachsen" id="gebgeometrieachsen_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebgeometrieachsen" id="gebgeometrieachsen_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebanfpktkorrekt" class="poplight">Lokalisationstest: Anfangspunkt, Richtung und Ordnungsnummern der Strassenachsen korrekt?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebanfpktkorrekt" id="gebanfpktkorrekt_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebanfpktkorrekt" id="gebanfpktkorrekt_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 	   
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebnumprinzip" class="poplight">Lokalisationstest: Nummerierungsprinzip plausibel?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebnumprinzip" id="gebnumprinzip_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebnumprinzip" id="gebnumprinzip_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebnummerplausibel" class="poplight">Lokalisationstest: Hausnummern plausibel, fehlen evtl. Hausnummern?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebnummerplausibel" id="gebnummerplausibel_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebnummerplausibel" id="gebnummerplausibel_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebtoponachbar" class="poplight">Lokalisationstest: Topologie Strassenachse angepasst an Nachbargemeinde?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebtoponachbar" id="gebtoponachbar_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebtoponachbar" id="gebtoponachbar_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebgemkontrolle" class="poplight">Gebäudeadressierung durch Gemeinde kontrolliert? (Strassennamen, Zuweisung der Gebäude zu den Strassen)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebgemkontrolle" id="gebgemkontrolle_ja" value="Richtig" />
+            	    erledigt
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebgemkontrolle" id="gebgemkontrolle_nein" value="Falsch" />
+ 	               	noch ausstehend
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>   	
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebohneeingaenge" class="poplight">Gebäude ohne Gebäudeeingänge?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebohneeingaenge" id="gebohneeingaenge_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebohneeingaenge" id="gebohneeingaenge_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>   	  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebausserhalbgeb" class="poplight">Gebäudeeingänge ausserhalb von Gebäude vorhanden?</a><label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebausserhalbgeb" id="gebausserhalbgeb_ja" value="Richtig" />
+            	   	Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebausserhalbgeb" id="gebausserhalbgeb_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebeingangzentroid" class="poplight">Gebäudeeingänge vorhanden, die in der Mitte der Gebäudefläche platziert sind?</a><label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebeingangzentroid" id="gebeingangzentroid_ja" value="Richtig" />
+            	   	i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebeingangzentroid" id="gebeingangzentroid_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>   	        
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebnummerposausserhalb" class="poplight">HausnummerPos ausserhalb von Gebäude vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebnummerposausserhalb" id="gebnummerposausserhalb_ja" value="Richtig" />
+            	   	Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebnummerposausserhalb" id="gebnummerposausserhalb_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>   
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_posohnenummer" class="poplight">HausnummerPos ohne Hausnummer?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="posohnenummer" id="posohnenummer_ja" value="Richtig" />
+            	   	Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="posohnenummer" id="posohnenummer_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_doppelteposfuergleichenummer" class="poplight">Doppelte HausnummerPos für gleiche Hausnummer vorhanden?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="doppelteposfuergleichenummer" id="doppelteposfuergleichenummer_ja" value="Richtig" />
+            	   	i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="doppelteposfuergleichenummer" id="doppelteposfuergleichenummer_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_eingaengemitnummerhabenpos" class="poplight">Alle Gebäudeeingänge mit einer Hausnummer haben eine HausnummerPos?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eingaengemitnummerhabenpos" id="eingaengemitnummerhabenpos_ja" value="Richtig" />
+            	   	Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eingaengemitnummerhabenpos" id="eingaengemitnummerhabenpos_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_eingangmitnummerzugleicherlok" class="poplight">Gebäudeeingänge mit gleicher Hausnummer, die zu gleicher Lokalisation zugewiesen sind?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="eingangmitnummerzugleicherlok" id="eingangmitnummerzugleicherlok_ja" value="Richtig" />
+            	   	Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="eingangmitnummerzugleicherlok" id="eingangmitnummerzugleicherlok_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	  	       	 	          	              	       	  	                   	             	  	           
+ 	       
+ 	     </dl>
+   	 	</fieldset> 	 
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Lokalisation</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_gebnumprinzipohneeingaenge" class="poplight">Attribut <tt>Nummerierungsprinzip</tt> = keine Nummer; bei Lokalisationen (Art = Strasse) denen keine Eingänge zugewiesen sind</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebnumprinzipohneeingaenge" id="gebnumprinzipohneeingaenge_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebnumprinzipohneeingaenge" id="gebnumprinzipohneeingaenge_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>
+ 	     </dl>
+   	 	</fieldset> 	 
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Strassenstueck</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_gebistachse" class="poplight">Attribut <tt>IstAchse</tt> korrekt?</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebistachse" id="gebistachse_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebistachse" id="gebistachse_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>
+ 	     </dl>
+   	 	</fieldset> 	
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Gebaeudeeingang</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_gebeingaengeohnelok" class="poplight">Gebäudeeingänge ohne Zuweisung einer Lokalisation?</label></a></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebeingaengeohnelok" id="gebeingaengeohnelok_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebeingaengeohnelok" id="gebeingaengeohnelok_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebeingangattribute" class="poplight">Attribute von Eingängen mit Hausnummer korrekt? <tt>Status</tt>, <tt>InAenderung</tt>, <tt>AttributeProvisorisch</tt>, <tt>IstOffizielleBezeichnung</tt></a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebeingangattribute" id="gebeingangattribute_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebeingangattribute" id="gebeingangattribute_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 	  
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebeingangohneattribute" class="poplight">Attribute von Eingänge ohne Hausnummer korrekt? <tt>Status</tt>, <tt>InAenderung</tt>, <tt>AttributeProvisorisch</tt>, <tt>IstOffizielleBezeichnung</tt></a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebeingangohneattribute" id="gebeingangohneattribute_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebeingangohneattribute" id="gebeingangohneattribute_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	        
+ 	       
+ 	           
+ 	     </dl>
+   	 	</fieldset>    	 	   	   	 	  	 	  	 	
+   	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Kontrolle Teilgebiet (ein GB-Plan im Baugebiet)</legend>
+    		<dl>
+       	<dt><label><a href="#?w=500" rel="pop_gebteilgebietplannummer" class="poplight">Plannummer</a></label></dt>
+       	<dd><input type="number" name="gebteilgebietplannummer" id="gebteilgebietplannummer" /></dd>             
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebeingangteilgebieteingang" class="poplight">Definition der Position der Gebäudeeingänge</label></a></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebeingangteilgebieteingang" id="gebeingangteilgebieteingang_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebeingangteilgebieteingang" id="gebeingangteilgebieteingang_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 	   
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_gebeingangteilgebiethausnummer" class="poplight">Definition der Position der Hausnummern</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="gebeingangteilgebiethausnummer" id="gebeingangteilgebiethausnummer_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="gebeingangteilgebiethausnummer" id="gebeingangteilgebiethausnummer_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 	 	           
+ 	     </dl>
+   	 	</fieldset>    	   	 	
+   	 	
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="geb_bemerkungen" id="geb_bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>   
+		</fieldset> 				
+			 	
+
+    <fieldset style="page-break-before:always;">
+    	<legend id="legend"><a name="planrahmen">Planrahmen</a></legend>     	 	
+    	<fieldset id="level2">
+    		<legend  id="level2">Planlayout</legend>
+    		<dl>
+	        <dt><label><a href="#?w=500" rel="pop_plrahmenvorhanden" class="poplight">Tabelle vorhanden? (nicht mehr zwingend)</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="plrahmenvorhanden" id="plrahmenvorhanden_ja" value="Richtig" />
+            	    Ja
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="plrahmenvorhanden" id="plrahmenvorhanden_nein" value="Falsch" />
+ 	               	Nein
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd> 
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_plrahmenattr" class="poplight">Kontrolle der Attribute <tt>NBIdent</tt>, <tt>Layouttyp</tt>, <tt>Gemeinde</tt>, <tt>Geometer</tt>, <tt>Massstab</tt>, <tt>E_Azimut</tt> und <tt>Erstellungsdatum</tt></a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="plrahmenattr" id="plrahmenattr_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="plrahmenattr" id="plrahmenattr_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	       
+ 	       
+	        <dt><label><a href="#?w=500" rel="pop_plrahmenvergleich" class="poplight">Visueller Vergleich (<tt>Massstab</tt>) mit Tabelle Planeinteilung.Plangeometrie</a></label></dt>
+  	      <dd>
+    	      <ul>
+      	      <li>
+        	      <label>
+          	      <input type="radio" name="plrahmenvergleich" id="plrahmenvergleich_ja" value="Richtig" />
+            	    i.O.
+              	</label>
+	            </li>
+ 	           	<li>
+ 	             	<label>
+ 	               	<input type="radio" name="plrahmenvergleich" id="plrahmenvergleich_nein" value="Falsch" />
+ 	               	mangelhaft
+ 	             	</label>
+ 	           </li>
+ 	         </ul>
+ 	       </dd>  	 	       
+
+ 	     </dl>
+   	 	</fieldset> 	
+   	 	
+	    <fieldset id="level2">
+    		<legend id="level2">Bemerkungen</legend>    
+   	   <dl>
+        <!-- <dt><label>Bemerkungen</label></dt> -->
+    	    <dd><textarea name="plrahmen_bemerkungen" id="plrahmen_bemerkungen"></textarea></dd>
+    	  </dl>
+   	 	</fieldset>   
+		</fieldset> 		
+
+    <fieldset id="save" class="actions">
+      <input type="submit" value="Speichern" />
+    </fieldset>
+    
+    <fieldset id="reset" class="actions">
+      <input type="reset" value="Löschen" />
+    </fieldset>    
+  </form>
+  
+<!-- Inhaltsverzeichnis -->  
+<div class="toc">
+<b>Inhalt:</b> <br><br>
+<a href="#fp12" class="tocentry">FixpunkteKategorie 1 + 2</a> <br>
+<a href="#fp3hilfsfp" class="tocentry">FixpunkteKategorie 3 + HilfsFP</a> <br>
+<a href="#bbeo" class="tocentry">Bodenbedeckung + Einzelobjekte</a> <br>
+<a href="#hoehen" class="tocentry">Hoehen</a> <br>
+<a href="#nomenklatur" class="tocentry">Nomenklatur</a> <br>
+<a href="#liegenschaften" class="tocentry">Liegenschaften</a> <br>
+<a href="#rohrleitung" class="tocentry">Rohrleitung</a> <br> 
+<a href="#nummerierungsbereiche" class="tocentry">Nummerierungsbereiche</a> <br>
+<a href="#hoheitsgrenzen" class="tocentry">Hoheitsgrenzen</a> <br>
+<a href="#planeinteilung" class="tocentry">Planeinteilung</a> <br>
+<a href="#tseinteilung" class="tocentry">TSEinteilung</a> <br>
+<a href="#gebaeudeadressen" class="tocentry">Gebaeudeadressen</a> <br>
+<a href="#planrahmen" class="tocentry">Planrahmen</a> <br>
+</div>
+
+
+
+<!-- Erläuterungen -->
+<!-- Fixpunktekategorie1 + 2 -->
+<div id="pop_fp1lfp1nfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (<i>CH0100000001</i>) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die LFP1 Nachführung lautet <i>CH0100000001</i>.</p>
+    <h2>Layer</h2>
+    <p>LFP1 Nachführung</p>
+</div>
+
+<div id="pop_fp1lfp1daten" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es LFP1 im Operat?</p>
+    <h2>Erklärung</h2>
+    <p>Es sind nicht in jedem Operat LFP1 vorhanden.</p>
+    <h2>Layer</h2>
+    <p>LFP1</p>
+</div>
+
+<div id="pop_fp1lfp1ausserhalb" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es LFP1, die ausserhalb der Gemeinde liegen?</p>
+    <h2>Erklärung</h2>
+    <p>Es werden keine Punkte ausserhalb des Perimeters toleriert.</p>
+    <h2>Layer</h2>
+    <p>LFP1 ausserhalb Gemeinde</p>
+</div>
+
+<div id="pop_fp1lfp1nbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (CH030000YYYY) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die LFP1 lautet <i>CH030000YYYY</i> (YYYY = Landeskartenblattnummer) und ist zwingend. Der Perimeter ist das entsprechende Landeskartenblatt. Es genügt, wenn diejenigen Kartenblätter vorhanden sind, auf denen die LFP1 sind.</p>
+    <h2>Layer</h2>
+    <p>LFP1</p>
+</div>
+
+<div id="pop_fp1lfp1punktzeichen" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurde die Punktversicherung leer gelassen?</p>
+    <h2>Erklärung</h2>
+    <p>Das Attribut ist optional und soll leer gelassen werden. Das korrekte Punktzeichen ist im FPDS ersichtlich.</p>
+    <h2>Layer</h2>
+    <p>LFP1</p>
+</div>
+
+<div id="pop_fp1hfp1nfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (<i>CH0100000001</i>) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die HFP1 Nachführung lautet <i>CH0100000001</i>.</p>
+    <h2>Layer</h2>
+    <p>HFP1 Nachführung</p>
+</div>
+
+<div id="pop_fp1hfp1daten" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es HFP1 im Operat?</p>
+    <h2>Erklärung</h2>
+    <p>Es sind nicht in jedem Operat HFP1 vorhanden.</p>
+    <h2>Layer</h2>
+    <p>HFP1</p>
+</div>
+
+<div id="pop_fp1hfp1ausserhalb" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es HFP1, die ausserhalb der Gemeinde liegen?</p>
+    <h2>Erklärung</h2>
+    <p>Es werden keine Punkte ausserhalb des Perimeters toleriert.</p>
+    <h2>Layer</h2>
+    <p>HFP1 ausserhalb Gemeinde</p>
+</div>
+
+<div id="pop_fp1hfp1nbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (CH02000000SO) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die HFP1 lautet <i>CH02000000SO</i> und ist zwingend. Der Perimeter ist die Kantonsgrenze. Es genügt, wenn derjenige Teil des Kantons vorhanden ist, in dem die Gemeinde liegt.</p>
+    <h2>Layer</h2>
+    <p>HFP1</p>
+</div>
+
+<div id="pop_fp2lfp2nfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (<i>SO0100000001</i>) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die LFP2 Nachführung lautet <i>SO0100000001</i>. Der Perimeter ist die Kantonsgrenze. Es genügt, wenn derjenige Teil des Kantons vorhanden ist, in dem die Gemeinde liegt.</p>
+    <h2>Layer</h2>
+    <p>LFP2 Nachführung</p>
+</div>
+
+<div id="pop_fp2lfp2daten" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es LFP2 im Operat?</p>
+    <h2>Erklärung</h2>
+    <p>Es sind nicht in jedem Operat LFP2 vorhanden.</p>
+    <h2>Layer</h2>
+    <p>LFP2</p>
+</div>
+
+<div id="pop_fp2lfp2ausserhalb" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es LFP2, die ausserhalb der Gemeinde liegen?</p>
+    <h2>Erklärung</h2>
+    <p>Es werden keine Punkte ausserhalb des Perimeters toleriert.</p>
+    <h2>Layer</h2>
+    <p>LFP2 ausserhalb Gemeinde</p>
+</div>
+
+<div id="pop_fp2lfp2nbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (CH030000YYYY) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die LFP2 lautet <i>CH030000YYYY</i> (YYYY = Landeskartenblattnummer) und ist zwingend. Der Perimeter ist das entsprechende Landeskartenblatt. Es genügt, wenn diejenigen Kartenblätter vorhanden sind, auf denen die LFP2 sind.</p>
+    <h2>Layer</h2>
+    <p>LFP2</p>
+</div>
+
+<div id="pop_fp2lfp2punktzeichen" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurde die Punktversicherung leer gelassen?</p>
+    <h2>Erklärung</h2>
+    <p>Das Attribut ist optional und soll leer gelassen werden. Das korrekte Punktzeichen ist im FPDS ersichtlich.</p>
+    <h2>Layer</h2>
+    <p>LFP2</p>
+</div>
+
+<div id="pop_fp2hfp2nfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (<i>SO0100000001</i>) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die HFP2 Nachführung lautet <i>SO0100000001</i>. Der Perimeter ist die Kantonsgrenze. Es genügt, wenn derjenige Teil des Kantons vorhanden ist, in dem die Gemeinde liegt.</p>
+    <h2>Layer</h2>
+    <p>HFP2 Nachführung</p>
+</div>
+
+<div id="pop_fp2hfp2daten" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es HFP2 im Operat?</p>
+    <h2>Erklärung</h2>
+    <p>Es sind nicht in jedem Operat HFP2 vorhanden.</p>
+    <h2>Layer</h2>
+    <p>HFP2</p>
+</div>
+
+<!-- Fixpunktekategorie3 + HilfsFP -->
+<div id="pop_fp3lfp3nfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die LFP3 Nachführung lautet SO020000XXXX (XXXX = BfS-Nummer der Gemeinde). Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>LFP3 Nachführung</p>
+</div>
+
+<div id="pop_fp3lfp3ausserhalb" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es LFP3, die ausserhalb der Gemeinde liegen?</p>
+    <h2>Erklärung</h2>
+    <p>Es werden keine Punkte ausserhalb des Perimeters toleriert.</p>
+    <h2>Layer</h2>
+    <p>LFP3 ausserhalb der Gemeinde</p>
+</div>
+
+<div id="pop_fp3lfp3nbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (<i>SO020000XXXX</i>) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent ür LFP3 lautet <i>SO020000XXXX</i> (XXXX = BfS-Nummer der Gemeinde) und ist zwingend. Vorsicht bei LFP3 auf Gemeindegrenzen: Nachbar-NBIdent falls BfS-Nummer der Nachbargemeinde kleiner als die Nummer der zu bearbeitenden Gemeinde.</p>
+    <h2>Layer</h2>
+    <p>LFP3</p>
+</div>
+
+<div id="pop_fp3lfp3punktzeichen" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es unversicherte LFP3?</p>
+    <h2>Erklärung</h2>
+    <p>Es sind keine unversicherten LFP3 zugelassen. Alle unversicherten Punkte müssen in der Tabelle HilfsFP sein.</p>
+    <h2>Layer</h2>
+    <p>LFP3</p>
+</div>
+
+<div id="pop_fp3lfp3lagegenzuv" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Entspricht die Lagegenauigkeit den Vorgaben und sind alle LFP3 zuverlässig in der Lage bestimmt?</p>
+    <h2>Erklärung</h2>
+    <p>Die Lagegenauigkeit nach TVAV sind einzuhalten und die Lage der LFP3 muss zuverlässig bestimmt sein.</p>
+    <h2>Layer</h2>
+    <p>LFP3 Genauigkeitsverteilung<br>
+    LFP3 nicht zuverlässig</p>
+</div>
+
+<div id="pop_fp3hilfsnfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die Hilfsfixpunkt Nachführung lautet SO020000XXXX (XXXX = BfS-Nummer der Gemeinde). Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>Hilfsfixpunkt Nachführung</p>
+</div> 
+
+<div id="pop_fp3hilfsvorhanden" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es Hilfsfixpunkte im Operat?</p>
+    <h2>Erklärung</h2>
+    <p>Hilfsfixpunkte sind optional.</p>
+    <h2>Layer</h2>
+    <p>Hilfsfixpunkte</p>
+</div> 
+
+<div id="pop_fp3hilfsausserhalb" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es Hilfsfixpunkte, die ausserhalb der Gemeinde liegen?</p>
+    <h2>Erklärung</h2>
+    <p>Es werden keine Punkte ausserhalb des Perimeters toleriert.</p>
+    <h2>Layer</h2>
+    <p>Hilfsfixpunkte ausserhalb Gemeinde</p>
+</div> 
+
+<div id="pop_fp3hilfsnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die HilfsFP lautet <i>SO020000XXXX</i> (XXXX = BfS-Nummer der Gemeinde) und ist zwingend. Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>Hilfsfixpunkte</p>
+</div> 
+
+<div id="pop_fp3hilfspunktzeichen" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist das Attribut Punkzeichen entweder <i>unversichert</i> oder <i>weitere</i>.</p>
+    <h2>Erklärung</h2>
+    <p>In dieser Tabelle dürfen nur nicht materialiserte (oder mit einem Nagel gekennzeichnet etc.) Punkte sein.</p>
+    <h2>Layer</h2>
+    <p>Hilfsfixpunkte</p>
+</div> 
+
+<div id="pop_fp3hfp3nfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die HFP3 Nachführung lautet SO020000XXXX (XXXX = BfS-Nummer der Gemeinde). Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>HFP3 Nachführung</p>
+</div>
+
+<div id="pop_fp3hfp3vorhanden" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es HFP3 im Operat?</p>
+    <h2>Erklärung</h2>
+    <p>Nicht jede Gemeinde besitzt ein HFP3-Netz.</p>
+    <h2>Layer</h2>
+    <p>HFP3</p>
+</div>
+
+<div id="pop_fp3hfp3ausserhalb" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es HFP3, die ausserhalb der Gemeinde liegen?</p>
+    <h2>Erklärung</h2>
+    <p>Es werden keine Punkte ausserhalb des Perimeters toleriert.</p>
+    <h2>Layer</h2>
+    <p>HFP3 ausserhalb der Gemeinde</p>
+</div>
+
+<div id="pop_fp3hfp3nbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die HilfsFP lautet <i>SO020000XXXX</i> (XXXX = BfS-Nummer der Gemeinde) und ist zwingend. Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>HFP3</p>
+</div>
+
+
+
+<!-- Bodenbedeckung + Einzelobjekte -->
+<div id="pop_bbnfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die BB Nachführung lautet SO020000XXXX (XXXX = BfS-Nummer der Gemeinde). Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>BB Nachführung</p>
+</div>
+
+<div id="pop_bbfliessrichtung" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wird die Orientierung des Fliessrichtungssymbols richtig verwaltet und ins ITF exportiert?</p>
+    <h2>Erklärung</h2>
+    <p>Mit den neuen Darstellungsrichtlinien des Bundes hat sich die Referenzrichtung des Fliessrichtungssymbols um 90° geändert.</p>
+    <h2>Layer</h2>
+    <p>Fliessrichtungssymbol</p>
+</div>
+
+<div id="pop_bbqualitaet" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle Bodenbedeckungsflächen mit dem Qualitätsstandard AV93 versehen?</p>
+    <h2>Erklärung</h2>
+    <p>Die Qualität muss überall auf 0, dh. AV93 gesetzt sein.</p>
+    <h2>Layer</h2>
+    <p>Bodenbedeckung</p>
+</div>
+
+<div id="pop_bbegiderfasst" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurden die EGID bereits erfasst?</p>
+    <h2>Erklärung</h2>
+    <p>Die EGID werden beim GWR bezogen und müssen den korrekten Gebäuden eindeutig zugewiesen werden.</p>
+    <h2>Layer</h2>
+    <p>Gebäudenummer</p>
+</div>
+
+<div id="pop_bbegidabklaerunggemeinde" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurden die Widersprüche bei den EGID mit der Gemeinde geklärt?</p>
+    <h2>Erklärung</h2>
+    <p>Unklare EGID müssen mit der Gemeinde zusammen geklärt werden.</p>
+    <h2>Layer</h2>
+    <p>-</p>
+</div>
+
+<div id="pop_bbegidgemeindekorrigiert" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Hat die Gemeinde die Widersprüche und Mängel in den EGID im GWR bereinigt?</p>
+    <h2>Erklärung</h2>
+    <p>Aufgetretene Widesprüche und Unklarheiten von EGID müssen durch die Gemeinde im GWR bereinigt werden.</p>
+    <h2>Layer</h2>
+    <p>-</p>
+</div>
+
+<div id="pop_eonfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die EO Nachführung lautet SO020000XXXX (XXXX = BfS-Nummer der Gemeinde). Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>BB Nachführung</p>
+</div>
+
+<div id="pop_eoqualitaet" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle EO-Flächenelemente mit dem Qualitätsstandard AV93 versehen?</p>
+    <h2>Erklärung</h2>
+    <p>Die Qualität muss überall auf 0, dh. AV93 gesetzt sein. Die Prüfung erfolgt im Layer Einzelobjekte, dh. inkl. Linien- und Punktobjekte.</p>
+    <h2>Layer</h2>
+    <p>Einzelobjekte</p>
+</div>
+
+<div id="pop_eo_28_x" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Liegen Einzelbojekte <i>schmaler_Weg</i> als Flächenelement vor?</p>
+    <h2>Erklärung</h2>
+    <p><i>Schmaler_Weg</i> darf nur als Linienelement erhoben werden.</p>
+    <h2>Layer</h2>
+    <p>schmaler_Weg</p>
+</div>
+
+<div id="pop_eo_17_x" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Liegen Einzelbojekte <i>Mast_Leitung</i> als Flächenelement vor?</p>
+    <h2>Erklärung</h2>
+    <p><i>Mast_Leitung</i> darf nur als Linienelement erhoben werden.</p>
+    <h2>Layer</h2>
+    <p>Mast_Leitung</p>
+</div>
+
+<div id="pop_eo_8" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurden in Bahnhofarealen Bahnsteige richtig umgearbeitet?</p>
+    <h2>Erklärung</h2>
+    <p><i>Bahnsteig</i> ist im DM.01 eine neue EO-Art.</p>
+    <h2>Layer</h2>
+    <p>Bahnsteig</p>
+</div>
+
+
+<div id="pop_eo_1" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurden Lärmschutzwände als solche attribuiert?</p>
+    <h2>Erklärung</h2>
+    <p><i>Laermschutzwand</i> ist im DM.01 eine neue EO-Art. Kann auch als Linienelement vorkommen.</p>
+    <h2>Layer</h2>
+    <p>Laermschutzwand</p>
+</div>
+
+<div id="pop_eoqualitaetlinie" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle EO-Linienelemente mit dem Qualitätsstandard AV93 versehen?</p>
+    <h2>Erklärung</h2>
+    <p>Die Qualität muss überall auf 0, dh. AV93 gesetzt sein. Die Prüfung erfolgt im Layer Einzelobjekte, dh. inkl. Flächen- und Punktobjekte.</p>
+    <h2>Layer</h2>
+    <p>Einzelobjekte</p>
+</div>
+
+<div id="pop_eo_29" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Liegen Einzelobjekte <i>Fahrspur</i> als Linienelemente vor?</p>
+    <h2>Erklärung</h2>
+    <p><i>Fahrspur</i> darf nur als Flächenelement erhoben werden.</p>
+    <h2>Layer</h2>
+    <p>Fahrspur</p>
+</div>
+
+<div id="pop_eo_17" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurden Gittermasten korrekt konstruiert?</p>
+    <h2>Erklärung</h2>
+    <p><i>Mast_Leitung</i> darf nur als Linienelement erhoben werden.</p>
+    <h2>Layer</h2>
+    <p>Mast_Leitung</p>
+</div>
+
+<div id="pop_eo_33" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurden überdeckte Bahngeleise als solche attribuiert?</p>
+    <h2>Erklärung</h2>
+    <p><i>Bahngeleise_ueberdeckt</i> ist im DM.01 eine neue EO-Art.</p>
+    <h2>Layer</h2>
+    <p>Bahngeleise_ueberdeckt</p>
+</div>
+
+<div id="pop_eoqualitaetpunkt" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle EO-Punkteelemente mit dem Qualitätsstandard AV93 versehen?</p>
+    <h2>Erklärung</h2>
+    <p>Die Qualität muss überall auf 0, dh. AV93 gesetzt sein. Die Prüfung erfolgt im Layer Einzelobjekte, dh. inkl. Flächen- und Linienelemente.</p>
+    <h2>Layer</h2>
+    <p>Einzelobjekte</p>
+</div>
+
+
+<!-- Hoehen -->
+<div id="pop_honfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die HO Nachführung lautet SO020000XXXX (XXXX = BfS-Nummer der Gemeinde). Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>NK Nachführung</p>
+</div>
+
+
+<!-- Nomenklatur -->
+<div id="pop_nknfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die NK Nachführung lautet SO020000XXXX (XXXX = BfS-Nummer der Gemeinde). Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>NK Nachführung</p>
+</div>
+
+<div id="pop_nonamenvorhanden" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Existieren neben Flurnamen auch Ortsnamen und Geländenamen im Operat?</p>
+    <h2>Erklärung</h2>
+    <p>Ortsnamen decken in der Regel das Siedlungsgebiet ab. Geländenamen sind wichtige topografische Orientierungspunkte.</p>
+    <h2>Layer</h2>
+    <p>Ortsname<br>
+    GelaendenamePos</p>
+</div>
+
+<div id="pop_ortsnameposplacement" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurde die Schriftposition der Ortsnamen optimal gewählt?</p>
+    <h2>Erklärung</h2>
+    <p>Der Ortsname soll auf die bestehende Situation ausgerichtet sein.</p>
+    <h2>Layer</h2>
+    <p>Ortsname<br>
+    OrtsnamePos<br>
+    (Übersichtsplan)<br>
+    (Bodenbedeckung)</p>
+</div>
+
+
+<!-- Liegenschaften -->
+<div id="pop_lsnfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die LS Nachführung lautet SO020000XXXX (XXXX = BfS-Nummer der Gemeinde). Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>LS Nachführung</p>
+</div>
+
+<div id="pop_lshgpalt" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Liegen Grenzpunkte mit <tt>Hoheitsgrenzstein</tt> = <i>alt</i> nur an aufgehobenen Gemeindegrenzen?</p>
+    <h2>Erklärung</h2>
+    <p>Dies befinden sich generell nur auf ehemaligen Gemeindegrenzverläufen bei fusionierten Gemeinden oder nach Grenzregulierungen.</p>
+    <h2>Layer</h2>
+    <p>Grenzpunkte HoheitsgrenzsteinAlt</p>
+</div>
+
+<div id="pop_lsexaktdef" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist das Attribut <tt>ExaktDefiniert</tt> richtig erfasst?</p>
+    <h2>Erklärung</h2>
+    <p> definiert sind alle versicherten Grenzpunkte. Grenzen, die aus nicht versicherten Grenz­punkten definiert sind, wie zum Beispiel eine Felskante, eine Bachmitte (bei natürlichem Bachufer) oder ein Bachufer, sind nicht exakt definiert. Hingegen sind Hausecken, die eine Grenze definieren, oder die Mitte eines Kanales exakt definierte Grenzpunkte.</p>
+    <h2>Layer</h2>
+    <p>Grenzepunkt NICHT exakt definiert<br>
+    Grenzpunkt</p>
+</div>
+
+<div id="pop_lslagezuvnein" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist das Attribut <tt>Lagezuverlässigkeit</tt> richtig erfasst?</p>
+    <h2>Erklärung</h2>
+    <p>Im Operat dürfen grundsätzlich keine materialisierten Grenzpunkte vorhanden sein, die unzuverlässig sind. Ist dies dennoch der Fall sein, muss der Unternehmer dazu Stellung nehmen. Im Operat dürfen grundsätzlich nur ein paar wenige Grenzpunkte vorhanden sein, die unzuverlässig und nicht materialisiert sind. Der Unternehmer muss zu sämtlichen solchen Punkten Stellung nehmen können. Punkte, die nie vermarkt werden und digitalisierte Grenzpunkte werden als zuverlässig attribuiert. </p>
+    <h2>Layer</h2>
+    <p>Grenzpunkte NICHT zuverlässig
+    </p>
+</div>
+
+<div id="pop_lsprojnbidend" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für projektierte Grundstücke ist zwingend und lautet <i>SO020000XXXX</i> (XXXX = BfS-Nummer der Gemeinde) und oder bei fusionierten Gemeinden <i>SONN0000XXXX</i>, wobei NN >= 02 und ein Index für eine alte Gemeinde. Der Perimeter ist die (alte) Gemeinde.</p>
+    <h2>Layer</h2>
+    <p>proj. Grundstücke
+    </p>
+</div>
+
+<div id="pop_lsprojnbidend" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für projektierte Grundstücke ist zwingend und lautet <i>SO020000XXXX</i> (XXXX = BfS-Nummer der Gemeinde) und oder bei fusionierten Gemeinden <i>SONN0000XXXX</i>, wobei NN >= 02 und ein Index für eine alte Gemeinde. Der Perimeter ist die (alte) Gemeinde.</p>
+    <h2>Layer</h2>
+    <p>proj. Grundstücke
+    </p>
+</div>
+
+<div id="pop_lsvollstaendig" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es im Operat unvollständige Grundstücke?</p>
+    <h2>Erklärung</h2>
+    <p>Es dürfen keine unvollständigen Grundstücke vorkommen.</p>
+    <h2>Layer</h2>
+    <p>Grundstueck
+    </p>
+</div>
+
+<div id="pop_lsgrunbidend" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für Grundstücke ist zwingend und lautet <i>SO020000XXXX</i> (XXXX = BfS-Nummer der Gemeinde) und oder bei fusionierten Gemeinden <i>SONN0000XXXX</i>, wobei NN >= 02 und ein Index für eine alte Gemeinde. Der Perimeter ist die (alte) Gemeinde.</p>
+    <h2>Layer</h2>
+    <p>Grundstueck
+    </p>
+</div>
+
+<div id="pop_lsgrunbidend" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für Grundstücke ist zwingend und lautet <i>SO020000XXXX</i> (XXXX = BfS-Nummer der Gemeinde) und oder bei fusionierten Gemeinden <i>SONN0000XXXX</i>, wobei NN >= 02 und ein Index für eine alte Gemeinde. Der Perimeter ist die (alte) Gemeinde.</p>
+    <h2>Layer</h2>
+    <p>Grundstueck
+    </p>
+</div>
+
+
+
+<!-- Nummerierungsbereiche -->
+<div id="pop_rlnfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für die RL Nachführung lautet SO020000XXXX (XXXX = BfS-Nummer der Gemeinde). Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>Rohrleitungen Nachführung</p>
+</div>
+
+<div id="pop_rlobjvorhanden" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es Leitungsobjekte im Operat?</p>
+    <h2>Erklärung</h2>
+    <p>Nicht jedes Operat führt Rohrleitungen.</p>
+    <h2>Layer</h2>
+    <p>Leitungsobjekt</p>
+</div>
+
+<div id="pop_rlqualitaet" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle Leitungsobjekte mit dem Qualitätsstandard AV93 versehen?</p>
+    <h2>Erklärung</h2>
+    <p>Die Qualität muss überall auf <i>0</i>, dh. auf <i>AV93</i> gesetzt sein.</p>
+    <h2>Layer</h2>
+    <p>Leitungsobjekt</p>
+</div>
+
+
+
+
+<!-- Nummerierungsbereiche -->
+<div id="pop_nbperimeter" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind die Nummerierungsbereiche richtig definiert?</p>
+    <h2>Erklärung</h2>
+    <p>Sind alle verlangten NB-Nummern vorhanden?</p>
+    <h2>Layer</h2>
+    <p>Nummerierungsbereich</p>
+</div>
+
+<div id="pop_nbmin" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle notwendigen NBIdents vorhanden?</p>
+    <h2>Erklärung</h2>
+    <p>Nötig sind: Gemeinde, evtl. Nachbargemeinden, Kanton, Landeskartenblätter (falls LFP1/2 vorhanden). Für die HFP1 wird ebenfalls der NBIdent des Kantons (CH02000000SO) verwendet.</p>
+    <h2>Layer</h2>
+    <p>Nummerierungsbereich/p>
+</div>
+
+<div id="pop_nbgemperim" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Unterscheidet sich der Perimeter SO020000XXXX von der Gemeindegrenze?</p>
+    <h2>Erklärung</h2>
+    <p>Die Geometrien sollten identisch sein. Bei Kreisbögen können fälschlicherweise Unterschiede detektiert werden.</p>
+    <h2>Layer</h2>
+    <p>NB Geometrie Widersprüche</p>
+</div>
+
+
+
+<!-- Hoheitsgrenzen -->
+<div id="pop_rlnfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für GEMNachfuehrung lautet SO020000XXXX (XXXX = BfS-Nr. der Gemeinde) und ist zwingend. Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>GEM Nachführung</p>
+</div>
+
+<div id="pop_gemgrenzevorhanden" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist die Gemeindegrenze erfasst?</p>
+    <h2>Erklärung</h2>
+    <p>Eine Gemeindegrenze muss in jedem Operat (falls die ganze Gemeinde bearbeitet wird) vorhanden sein.</p>
+    <h2>Layer</h2>
+    <p>Gemeindegrenze</p>
+</div>
+
+<div id="pop_bezirkvorhanden" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind Bezirksgrenzabschnitte im Operat vorhanden? Sind diese vollständig?</p>
+    <h2>Erklärung</h2>
+    <p>Falls die Gemeinde an die Bezirksgrenze anstösst, muss ein Bezirksgrenzabschnitt vorhanden sein.</p>
+    <h2>Layer</h2>
+    <p>Bezirksgrenze</p>
+</div>
+
+<div id="pop_kantonvorhanden" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle notwendigen Kantonsgrenzabschnitte im Operat vorhanden? Sind diese vollständig?</p>
+    <h2>Erklärung</h2>
+    <p>Falls die Gemeinde an die Kantonsgrenze anstösst, muss ein Kantonsgrenzabschnitt vorhanden sein.</p>
+    <h2>Layer</h2>
+    <p>Kantonsgrenze</p>
+</div>
+
+<div id="pop_landvorhanden" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle notwendigen Landesgrenzabschnitte im Operat vorhanden? Sind diese vollständig?</p>
+    <h2>Erklärung</h2>
+    <p>Falls die Gemeinde an die Landesgrenze anstösst, muss ein Landesgrenzabschnitt vorhanden sein.</p>
+    <h2>Layer</h2>
+    <p>Landesgrenze</p>
+</div>
+
+<div id="pop_hohvisuell" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurde die Vollständigkeit und der gegenseitige Verlauf der Hoheitsgrenzen visuell überprüft?</p>
+    <h2>Erklärung</h2>
+    <p>Stimmen die verschiedenen Hoheitsgrenzen überein (geometrisch)?</p>
+    <h2>Layer</h2>
+    <p>Gemeindegrenze<br>
+    Bezirksgrenze<br>
+    Kantonsgrenze<br>
+    Landesgrenze<br>
+    </p>
+</div>
+
+<div id="pop_hohcheckch" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurde der Hoheitsgrenzcheck bei CheckCH durchgeführt und wurden diese gemäss kantonaler FAQ bereinigt?</p>
+    <h2>Erklärung</h2>
+    <p>Die Hoheitsgrenze muss mit Hilfe des Programms &laquo;Check Service Hoheitsgrenzen&raquo; der V+D überprüft werden. Vereinzelte Kanton (z.B. BE) haben eine vom Bund und dem Kanton Solothurn abweichende Regelung.</p>
+    <h2>Layer</h2>
+    <p>Visualierung Hoheitsgrenzcheck via CheckCH Webportal.
+    </p>
+</div>
+
+<div id="pop_hohgpnummer" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurden auf der Gemeindegrenze Grenzpunktnummern mit jenen der Nachbargemeinde stichprobenweise verglichen?</p>
+    <h2>Erklärung</h2>
+    <p>Die Grenzpunktnummern entlang der Gemeindegrenze müssen identisch sein. Möglich ist auch, dass nur in einem Operat Nummern verwaltet werden oder auch gar keine. Massgebend für die Vergabe der Nummern ist die erstvermessene Gemeinde.</p>
+    <h2>Layer</h2>
+    <p>Grenzpunkte<br>
+    Grenzpunkte der Nachbargemeinde.
+    </p>
+</div>
+
+<div id="pop_hohgemname" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Stimmt der Gemeindename (Schreibweise) mit dem amtlichen Gemeindeverzeichnis des BfS überein?</p>
+    <h2>Erklärung</h2>
+    <p>Das Bundesamt für Statistik führt das amtliche Gemeindeverzeichnis. Die Schreibweise in der AV und des BfS müssen übereinstimmen.</p>
+    <h2>Layer</h2>
+    <p>
+    <a href="http://www.bfs.admin.ch/bfs/portal/de/index/infothek/nomenklaturen/blank/blank/gem_liste/03.html">Amtliches Gemeindeverzeichnis</a> beim BfS (2011-03-07).
+    </p>
+</div>
+
+<div id="pop_hgp_verteilung" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist die Versicherungsart der Hoheitsgrenzpunkte plausibel?</p>
+    <h2>Erklärung</h2>
+    <p>Ist die Verteilung der Versicherungsart der Hoheitsgrenzpunkte plausibel? Auf Geländekanten und Bacherverläufe achten.</p>
+    <h2>Layer</h2>
+    <p>Hoheitsgrenzpunkte
+    </p>
+</div>
+
+<div id="pop_hgp_ndbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind die Nummerierungsbereiche der Hoheitsgrenzpunkte, unterschieden nach Kantonsgrenze und Landesgrenze, richtig definiert?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent der nummerierten Hoheitsgrenzpunkte muss bei der Kantonsgrenze SO0100000001 und bei der Landesgrenze SO0100000002 sein. Die nicht nummerierten Hoheitsgrenzpunkte erhalten keinen NBIdent.</p>
+    <h2>Layer</h2>
+    <p>Hoheitsgrenzpunkte NBIdent
+    </p>
+</div>
+
+<div id="pop_hgphoheitsgrenzstein" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle Hoheitsgrenzpunkte gemäss kantonalem Inventar korrekt attribuiert?</p>
+    <h2>Erklärung</h2>
+    <p>Mit den im Amt vorhandenen Unterlagen kann die Vergabe des Attributs &laquo;Hoheitsgrenzstein&raquo; auf der Kantonsgrenze überprüft werden.</p>
+    <h2>Layer</h2>
+    <p>Hoheitsgrenzpunkt Hoheitsgrenzstein
+    </p>
+</div>
+
+<div id="pop_hgpexakt" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es Hoheitsgrenzpunkte, die nicht exakt definiert sind?</p>
+    <h2>Erklärung</h2>
+    <p>Exakt definiert sind alle versicherten Grenzpunkte. Grenzen, die aus nicht versicherten Grenz­punkten definiert sind, wie zum Beispiel eine Felskante, eine Bachmitte (bei natürlichem Bachufer) oder ein Bachufer, sind nicht exakt definiert. Hingegen sind Hausecken, die eine Grenze definieren, oder die Mitte eines Kanales exakt definierte Grenzpunkte.</p>
+    <h2>Layer</h2>
+    <p>Hoheitsgrenzpunkt NICHT exakt definiert
+    </p>
+</div>
+
+<div id="pop_hgplagezuv" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es Hoheitsgrenzpunkte mit <tt>Lagezuverlässigkeit</tt> = <i>nein</i>?</p>
+    <h2>Erklärung</h2>
+    <p>Im Operat dürfen grundsätzlich keine materialisierten Grenzpunkte vorhanden sein, die unzuverlässig sind. Ist dies dennoch der Fall sein, muss der Unternehmer dazu Stellung nehmen. Im Operat dürfen grundsätzlich nur ein paar wenige Grenzpunkte vorhanden sein, die unzuverlässig und nicht materialisiert sind. Der Unternehmer muss zu sämtlichen solchen Punkten Stellung nehmen können. Punkte, die nie vermarkt werden und digitalisierte Grenzpunkte werden als zuverlässig attribuiert. </p>
+    <h2>Layer</h2>
+    <p>Hoheitsgrenzpunkt NICHT zuverlässig
+    </p>
+</div>
+
+<div id="pop_bezirkgueltigkeit" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist das Attribut <tt>Gueltigkeit</tt> korrekt erfasst?</p>
+    <h2>Erklärung</h2>
+    <p>Bei AV93-konformen Operaten ist Attribut <tt>Gueltigkeit</tt> im Regelfall <i>rechtskraeftig</i>, sofern keine rechtlichen Streitigkeiten vorliegen.</p>
+    <h2>Layer</h2>
+    <p>Bezirksgrenze
+    </p>
+</div>
+
+
+<div id="pop_kantongueltigkeit" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist das Attribut <tt>Gueltigkeit</tt> korrekt erfasst?</p>
+    <h2>Erklärung</h2>
+    <p>Bei AV93-konformen Operaten ist Attribut <tt>Gueltigkeit</tt> im Regelfall <i>rechtskraeftig</i>, sofern keine rechtlichen Streitigkeiten vorliegen.</p>
+    <h2>Layer</h2>
+    <p>Kantonsgrenze
+    </p>
+</div>
+
+<div id="pop_landgueltigkeit" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist das Attribut <tt>Gueltigkeit</tt> korrekt erfasst?</p>
+    <h2>Erklärung</h2>
+    <p>Bei AV93-konformen Operaten ist Attribut <tt>Gueltigkeit</tt> im Regelfall <i>rechtskraeftig</i>, sofern keine rechtlichen Streitigkeiten vorliegen.</p>
+    <h2>Layer</h2>
+    <p>Landesgrenze
+    </p>
+</div>
+
+
+<!-- Planeinteilung -->
+<div id="pop_plannbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für Pläne lautet SO020000XXXX (XXXX = BfS-Nr. der Gemeinde) und ist zwingend.</p>
+    <h2>Layer</h2>
+    <p>Plangeometrie</p>
+</div>
+
+<div id="pop_planzahl" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle Pläne korrekt nur als Zahl bezeichnet?</p>
+    <h2>Erklärung</h2>
+    <p>Die Plannummer darf nur als Zahl definiert sein. Beispielsweise nur &laquo;14&raquo; und nicht &laquo;P14&raquo;.</p>
+    <h2>Layer</h2>
+    <p>Plangeometrie</p>
+</div>
+
+
+
+<!-- TSEinteilung -->
+<div id="pop_tsnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für Toleranzstufen lautet SO020000XXXX (XXXX = BfS-Nr. der Gemeinde) und ist zwingend.</p>
+    <h2>Layer</h2>
+    <p>Toleranzstufen</p>
+</div>
+
+
+
+<!-- Gebäudeadressen -->
+<div id="pop_gebnfnbident" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der richtige NBIdent (SO020000XXXX) zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Der NBIdent für GEBNachfuehrung lautet SO020000XXXX (XXXX = BfS-Nr. der Gemeinde) und ist zwingend. Der Perimeter ist die Operatsgrenze.</p>
+    <h2>Layer</h2>
+    <p>GEB Nachführung</p>
+</div>
+
+<div id="pop_gebgeometrieachsen" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der Verlauf der Strassenachsen (Strassen und Plätze) korrekt und plausibel?</p>
+    <h2>Erklärung</h2>
+    <p>DerIst der Verlauf der Strassenachsen bei Strassen und Plätzen korrekt. Stimmen auch die Achsdefinitionen bei Kreuzungen und Einmündungen? Bei der Änderung des Strassennamens befindet sich zwingend ein Anfangspunkt eines neuen Strassenstückes.</p>
+    <h2>Layer</h2>
+    <p>Strassenstück (Geometrie)<br>
+    Bodenbedeckung.Art = Strasse_Weg, Trottoir und Gebäudeerschliessung<br>
+    Orthofoto</p>
+</div>
+
+<div id="pop_gebgeometrieachsen" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist der Verlauf der Strassenachsen (Strassen und Plätze) korrekt und plausibel?</p>
+    <h2>Erklärung</h2>
+    <p>Ist der Verlauf der Strassenachsen bei Strassen und Plätzen korrekt. Stimmen auch die Achsdefinitionen bei Kreuzungen und Einmündungen? Bei der Änderung des Strassennamens befindet sich zwingend ein Anfangspunkt eines neuen Strassenstückes.</p>
+    <h2>Layer</h2>
+    <p>Strassenstück (Geometrie)<br>
+    Bodenbedeckung.Art = Strasse_Weg, Trottoir und Gebäudeerschliessung<br>
+    Orthofoto</p>
+</div>
+
+<div id="pop_gebanfpktkorrekt" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Stimmt die Richtung und das Ordnungsprinzip der Strassenachsen?</p>
+    <h2>Erklärung</h2>
+    <p>Stimmt die Richtung der Strassenachse mit dem Gebäudenummerierungsprinzip überein? Stimmter der Anfangspunkt? Ist die Ordnung der Strassenstücke aufsteigend? Ist bei Sackgassen (&laquo;Stumpenstrassen&raquo;) die Strasse in Richtung des Endes definiert?</p>
+    <h2>Layer</h2>
+    <p>Strassenstück (Anfangspunkt und Geometrie)<br>
+    Bodenbedeckung<br>
+    F12</p>
+</div>
+
+<div id="pop_gebnumprinzip" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist die Vergabe des Nummerierungsprinzips plausibel?</p>
+    <h2>Erklärung</h2>
+    <p>Gibt es eine homogene Vergabe des Nummerierungsprinzips durch die Gemeinde? Stimmt dieses mit der Vergabe der Hausnummern überein?</p>
+    <h2>Layer</h2>
+    <p>LokalisationsName<br>
+    F12</p>
+</div>
+
+<div id="pop_gebnummerplausibel" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist die Vergabe der Hausnummern plausibel?</p>
+    <h2>Erklärung</h2>
+    <p>Sind die Hausnummern mit dem Nummerierungsprinzip verträglich und sind die Nummern der korrekten Lokalisation zugewiesen?</p>
+    <h2>Layer</h2>
+    <p>Strassenstück (Geometrie und Anfangspunkt)<br>
+    LokalisationsNamePos<br>
+    HausnummerPos<br>
+    Spinnennetz<br>
+    F12</p>
+</div>
+
+<div id="pop_gebtoponachbar" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Stimmt der Strassenstückverlauf an der Gemeindegrenze?</p>
+    <h2>Erklärung</h2>
+    <p>Das Strassenachsennetz soll schweizweit zusammenpassen. Deshalb ist der Achsverlauf an der Gemeindegrenze zu homogenisieren.</p>
+    <h2>Layer</h2>
+    <p>Strassenstück (Geometrie)<br>
+    Strassenstücke der Nachbargemeinde<br>
+    </p>
+</div>
+
+<div id="pop_gebgemkontrolle" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Liegt von der Gemeinde eine Genehmigung der Adressen der AV vor?</p>
+    <h2>Erklärung</h2>
+    <p>Gebäudeadressen sind in der Hoheit der Gemeinden. Deswegen sind die Lokalisationen (Strassennamen, Plätze, Benannte Gebiete) und Hausnummern durch die Gemeinde zu genehmigen.</p>
+    <h2>Layer</h2>
+    <p>-
+    </p>
+</div>
+
+<div id="pop_gebohneeingaenge" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es Gebäude &gt; 12 m2 ohne Gebäudeeingänge?</p>
+    <h2>Erklärung</h2>
+    <p>Alle Gebäude grösser 12 m2 benötigen einen Gebäudeeingang.</p>
+    <h2>Layer</h2>
+    <p>Gebäude &gt; 12m2 ohne Eingang
+    </p>
+</div>
+
+<div id="pop_gebausserhalbgeb" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es Gebäudeeingänge, die ausserhalb von Gebäuden (BB und EO) liegen?</p>
+    <h2>Erklärung</h2>
+    <p>Gebäudeeingänge müssen innerhalb von BB.Gebaude, EO.unterirdisches_Gebaeude, EO.Unterstand, EO.uebriger_Gebaeudeteil und EO.Reservoir liegen.</p>
+    <h2>Layer</h2>
+    <p>Gebäudeeingänge ausserhalb
+    </p>
+</div>
+
+<div id="pop_gebnummerposausserhalb" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Gibt es Hausnummerpositionen, die ausserhalb von Gebäuden (BB und EO) liegen?</p>
+    <h2>Erklärung</h2>
+    <p>Hausnummerpositionen müssen innerhalb von BB.Gebaude, EO.unterirdisches_Gebaeude, EO.Unterstand, EO.uebriger_Gebaeudeteil und EO.Reservoir liegen.</p>
+    <h2>Layer</h2>
+    <p>HausnummerPos ausserhalb
+    </p>
+</div>
+
+<div id="pop_gebnumprinzipohneeingaenge" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Haben alle Strassen, denen keine Eingänge zugwiesen sind, das Nummerierungsprinzip <i>keine Nummer</i>?</p>
+    <h2>Erklärung</h2>
+    <p>Lokalisationen, denen keine Eingänge zugewiesen sind, haben das Nummerierungsprinzip <i>keine Nummer</i>.</p>
+    <h2>Layer</h2>
+    <p>LokalisationsName ohne Eingänge
+    </p>
+</div>
+
+<div id="pop_gebistachse" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Kommen Strassenstücke vor, die das Attribut <tt>IstAchse</tt> = <i>nein</i> haben, vor?</p>
+    <h2>Erklärung</h2>
+    <p>In der AV erhobene Strassenachsen haben das Attribut <tt>IstAchse</tt> = <i>ja</i>.</p>
+    <h2>Layer</h2>
+    <p>Strassenstueck istAchse = nein
+    </p>
+</div>
+
+<div id="pop_gebeingaengeohnelok" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle Eingänge einer Lokalisation zugewiesen?</p>
+    <h2>Erklärung</h2>
+    <p>Gebäudeeingänge sollen immer einer Lokalisation zugewiesen werden.</p>
+    <h2>Layer</h2>
+    <p>Eingänge ohne Lokalisation
+    </p>
+</div>
+
+<div id="pop_gebeingangattribute" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle Gebäudeeingänge mit Hausnummern korrekt attribuiert?</p>
+    <h2>Erklärung</h2>
+    <p>Eingänge mit Nummern:<br>
+		<ul>
+		<li>Status: real</li>
+		<li>InAenderung: nein</li>
+		<li>AttributeProvisorisch: nein</li>
+		<li>IstOffizielleBezeichnung: ja</li>		
+		</ul>    
+    </p>
+    <h2>Layer</h2>
+    <p>Gebäudeeingänge MIT Nummer - Attribute
+    </p>
+</div>
+
+<div id="pop_gebeingangohneattribute" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind alle Gebäudeeingänge ohne Hausnummern korrekt attribuiert?</p>
+    <h2>Erklärung</h2>
+    <p>Eingänge mit Nummern:<br>
+		<ul>
+		<li>Status: real</li>
+		<li>InAenderung: nein</li>
+		<li>AttributeProvisorisch: nein</li>
+		<li>IstOffizielleBezeichnung: nein</li>		
+		</ul>    
+    </p>
+    <h2>Layer</h2>
+    <p>Gebäudeeingänge OHNE Nummer - Attribute
+    </p>
+</div>
+
+<div id="pop_gebeingangteilgebieteingang" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>-</p>
+    <h2>Erklärung</h2>
+    <p>Angabe der Plannummern, in welchen die Position der Eingänge und Nummerpositionen speziell (Okularkontrolle) geprüft werden.</p>
+    <h2>Layer</h2>
+    <p>-
+    </p>
+</div>
+
+<div id="pop_gebteilgebietplannummer" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>-</p>
+    <h2>Erklärung</h2>
+    <p>Angabe der Plannummern, in welchen die Position der Eingänge und Nummerpositionen speziell (Okularkontrolle) geprüft werden.</p>
+    <h2>Layer</h2>
+    <p>-
+    </p>
+</div>
+
+<div id="pop_gebeingangteilgebieteingang" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Ist die Lage der erfassten Gebäudeeingänge korrekt?</p>
+    <h2>Erklärung</h2>
+    <p>Sind die Gebäudeeingänge an einem plausiblen Ort? Stimmen sie mit der Gebäudeerschliessung überein? Auch Einzelobjekte können einen Eingang haben.</p>
+    <h2>Layer</h2>
+    <p>Gebäudeeingänge<br>
+    Bodenbedeckung<br>
+    Einzelobjekte (Flächen- und Linienelemente)<br>
+    Spinnennetz<br>
+    Orthofoto<br>
+    Handrisse<br>
+    Feldkontrolle<br>
+    </p>
+</div>
+
+<div id="pop_gebeingangteilgebiethausnummer" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind die Positionen und Orientierungen der Hausnummern korrekt?</p>
+    <h2>Erklärung</h2>
+    <p>Sind die Hausnummern der Weisung entsprechend platziert.</p>
+    <h2>Layer</h2>
+    <p>HausnummerPos<br>
+    LokalisationsNamePos<br>
+    Einzelobjekte Flaechenelement<br>
+    Bodenbedeckung<br>
+    Spinnennetz<br>
+    </p>
+</div>
+
+<div id="pop_gebeingangzentroid" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind Gebäudeeingänge vorhanden, die in der Mitte eines Gebäudes (Zentroid) platziert sind?</p>
+    <h2>Erklärung</h2>
+    <p>Gebäudeeingänge sind nicht in der Mitte des Gebäude zu platzieren.</p>
+    <h2>Layer</h2>
+    <p>Gebäudeeingänge innerhalb Zentroidbuffer
+    </p>
+</div>
+
+<div id="pop_posohnenummer" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind Positionen für leere Hausnummern resp. Eingänge ohne Hausnummern vorhanden?</p>
+    <h2>Erklärung</h2>
+    <p>Die HausnummerPos ist nur bei vorhandener Hausnummer zu erfassen.</p>
+    <h2>Layer</h2>
+    <p>HausnummerPos ohne Nummer</p>
+</div>
+
+<div id="pop_doppelteposfuergleichenummer" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind doppelte HausnummerPos für die gleiche Hausnummer vorhanden?</p>
+    <h2>Erklärung</h2>
+    <p>Doppelte HausnummerPos für die gleiche Hausnummer sind in der Regel auszuschliessen.</p>
+    <h2>Layer</h2>
+    <p>HausnummerPos doppelt</p>
+</div>
+
+<div id="pop_eingaengemitnummerhabenpos" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Haben alle Gebäudeeingänge mit einer Hausnummer eine HausnummerPos?</p>
+    <h2>Erklärung</h2>
+    <p>Bei Gebäudeeingängen mit einer Hausnummer muss ein HausnummerPos erfasst werden.</p>
+    <h2>Layer</h2>
+    <p>Eingang mit Nummer ohne Position</p>
+</div>
+
+<div id="pop_eingangmitnummerzugleicherlok" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Sind Gebäudeeingänge mit gleicher Nummer vorhanden, die mit der gleichen Lokalisation verknüpft sind?</p>
+    <h2>Erklärung</h2>
+    <p>Eine Hausnummer muss in der Lokalisation eindeutig sein.</p>
+    <h2>Layer</h2>
+    <p>Eingang mit gleicher Nummer zu Lokalisation</p>
+</div>
+
+<!-- Planlayout -->
+<div id="pop_plrahmenvorhanden" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurden Daten im Topic Planlayout erfasst?</p>
+    <h2>Erklärung</h2>
+    <p>Das Topic Planlayout muss nicht mehr erfasst werden; ist dies dennoch erfolgt, sind die Bedingungen im nachfolgenden Test einzuhalten.</p>
+    <h2>Layer</h2>
+    <p>Planlayout</p>
+</div>
+  
+<div id="pop_plrahmenattr" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Wurden die Attribute der Planlayouts korrekt vergeben?</p>
+    <h2>Erklärung</h2>
+    <p>Folgende Attribute müssen abgefüllt sein:
+    <ul>
+     <li>NBIdent: SO020000XXXX (XXXX: BfS-Nummer)</li>
+     <li>Layoutyp: PfdGB_SO</li>
+     <li>Gemeinde: Gemeindename</li>
+     <li>Geometer: Name des Geometers</li>
+     <li>Massstab: Planmassstabszahl</li>
+     <li>E_Azimut: Azimut der Planausrichtung</li>
+     <li>Erstellungsdatum: Datum des Anerkennungs-RRB</li>
+    </ul>
+    <h2>Layer</h2>
+    <p>Planlayout</p>
+</div>
+
+<div id="pop_plrahmenvergleich" class="popup_block">
+    <h2>Prüfung</h2>
+    <p>Visueller Vergleich der Masstabszahl von Tabelle Planlayout mit der Tabelle Plangeometrie des Topics Planeinteilung.</p>
+    <h2>Erklärung</h2>
+    <p>Der Layer Planlayout ist bereits mit den benötigten anderen Tabellen verknüpft.</p>
+    <h2>Layer</h2>
+    <p>Planlayout</p>
+</div>  
+  
+  
+<script type="text/javascript">
+$(document).ready(function(){
+						   		   
+	//When you click on a link with class of poplight and the href starts with a # 
+	$('a.poplight[href^=#]').click(function() {
+		var popID = $(this).attr('rel'); //Get Popup Name
+		var popURL = $(this).attr('href'); //Get Popup href to define size
+				
+		//Pull Query & Variables from href URL
+		var query= popURL.split('?');
+		var dim= query[1].split('&');
+		var popWidth = dim[0].split('=')[1]; //Gets the first query string value
+
+		//Fade in the Popup and add close button
+		$('#' + popID).fadeIn().css({ 'width': Number( popWidth ) }).prepend('<a href="#" class="close"><img src="img/close_pop.png" border="0" class="btn_close" title="Fenster schliessen" alt="Schliessen" /></a>');
+		
+		//Define margin for center alignment (vertical + horizontal) - we add 80 to the height/width to accomodate for the padding + border width defined in the css
+		var popMargTop = ($('#' + popID).height() + 80) / 2;
+		var popMargLeft = ($('#' + popID).width() + 80) / 2;
+		
+		//Apply Margin to Popup
+		$('#' + popID).css({ 
+			'margin-top' : -popMargTop,
+			'margin-left' : -popMargLeft
+		});
+		
+		//Fade in Background
+		$('body').append('<div id="fade"></div>'); //Add the fade layer to bottom of the body tag.
+		$('#fade').css({'filter' : 'alpha(opacity=50)'}).fadeIn(); //Fade in the fade layer 
+		
+		return false;
+	});
+	
+	
+	//Close Popups and Fade Layer
+	$('a.close, #fade').live('click', function() { //When clicking on the close or fade layer...
+	  	$('#fade , .popup_block').fadeOut(function() {
+			$('#fade, a.close').remove();  
+	}); //fade them both out
+		
+		return false;
+	});
+
+	
+});
+</script>
+  
+</body>
+</html>

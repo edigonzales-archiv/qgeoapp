@@ -1,0 +1,10 @@
+{
+  "tables": [
+    {
+      "table": "CREATE TABLE $$DBSCHEMA.maengel (ogc_fid serial NOT NULL, gruppe varchar, fehler varchar, bemerkung varchar, datum date, the_geom geometry, CONSTRAINT maengel_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 'maengel', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.maengel TO $$USER;" 
+    }
+  ],
+  "updates": [],
+  "inserts": [],
+  "views": []
+}

@@ -1,0 +1,675 @@
+CREATE TABLE $$DBSCHEMA.t_kontrollraster_strasse_500 (ogc_fid serial NOT NULL, kontrolliert boolean, the_geom geometry, CONSTRAINT t_kontrollraster_strasse_500_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_kontrollraster_strasse_500', 'the_geom', 2, '21781', 'POLYGON'); GRANT SELECT ON TABLE $$DBSCHEMA.t_kontrollraster_strasse_500 TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_kontrollraster_strasse_500 (kontrolliert, the_geom) SELECT FALSE, ST_SetSRID(st_translate(geom, 0 ,yseries),21781) as geom FROM (SELECT generate_series(0, dy, 500) as yseries, st_translate(geom, xseries, 0) as geom FROM (SELECT  generate_series(0, dx, 500) as xseries, dy, geom FROM (SELECT st_envelope(st_makeline(st_makepoint(xmin,ymin), st_makepoint(xmin+500,ymin+500))) as geom, ((xmax-xmin)::integer / 500::integer)*500 as dx, ((ymax-ymin)::integer / 500::integer)*500 as dy FROM (SELECT ST_XMin(geometrie) as xmin, ST_YMin(geometrie) as ymin, ST_XMax(geometrie) as xmax, ST_YMax(geometrie) as ymax FROM $$DBSCHEMA.gemeindegrenzen_gemeindegrenze) as s1) as t1) as t2) as t3;
+
+
+
+CREATE TABLE $$DBSCHEMA.t_str_flaeche_10000 (ogc_fid serial NOT NULL, the_geom geometry, art_txt varchar, flaeche double precision, CONSTRAINT t_str_flaeche_10000_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_str_flaeche_10000', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_str_flaeche_10000 TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_str_flaeche_10000 (the_geom, art_txt, flaeche) SELECT ST_PointOnSurface(bb.geometrie) as the_geom, bb.art_txt, area(bb.geometrie) as flaeche FROM $$DBSCHEMA.bodenbedeckung_boflaeche as bb WHERE bb.art = 1 AND ST_Area(bb.geometrie) > 10000
+
+
+
+CREATE TABLE $$DBSCHEMA.t_schmaler_weg_ts2 (ogc_fid serial NOT NULL, the_geom geometry, art_txt varchar, CONSTRAINT t_schmaler_weg_ts2_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_schmaler_weg_ts2', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_schmaler_weg_ts2 TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_schmaler_weg_ts2 (the_geom, art_txt) SELECT ST_Centroid(eo_li.geometrie) as the_geom, eo.art_txt 
+FROM 
+(
+  SELECT * FROM $$DBSCHEMA.einzelobjekte_einzelobjekt WHERE art = 28
+) as eo
+LEFT JOIN $$DBSCHEMA.einzelobjekte_linienelement eo_li ON eo.tid = eo_li.linienelement_von,
+(
+  SELECT * 
+  FROM $$DBSCHEMA.tseinteilung_toleranzstufe 
+  WHERE art = 1
+) as ts
+WHERE eo_li.geometrie && ts.geometrie
+AND ST_Intersects(ts.geometrie, eo_li.geometrie)
+
+
+
+CREATE TABLE $$DBSCHEMA.t_pfeiler_50cm (ogc_fid serial NOT NULL, the_geom geometry, art_txt varchar, CONSTRAINT t_pfeiler_50cm_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_pfeiler_50cm', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_pfeiler_50cm TO $$USER;
+
+INSERT INTO  $$DBSCHEMA.t_pfeiler_50cm (the_geom, art_txt) 
+SELECT ST_PointOnSurface(eo_fl.geometrie) as the_geom, eo.art_txt
+FROM  $$DBSCHEMA.einzelobjekte_flaechenelement eo_fl
+LEFT JOIN  $$DBSCHEMA.einzelobjekte_einzelobjekt eo ON eo_fl.flaechenelement_von = eo.tid
+WHERE eo.art = 11 AND ST_Area (eo_fl.geometrie) < 0.25
+
+
+-- View Objektnamen
+
+CREATE OR REPLACE VIEW $$DBSCHEMA.v_bb_objektnamen AS
+SELECT b.ogc_fid, a.name, FALSE::boolean as projektiert, b.pos, st_x(b.pos) AS y, st_y(b.pos) AS x, (100::double precision - b.ori) * 0.9::double precision AS rot, b.hali_txt, b.vali_txt
+FROM $$DBSCHEMA.bodenbedeckung_objektname a, $$DBSCHEMA.bodenbedeckung_objektnamepos b
+WHERE a.tid = b.objektnamepos_von
+  UNION
+SELECT b.ogc_fid, a.name, TRUE::boolean as projektiert, b.pos, st_x(b.pos) AS y, st_y(b.pos) AS x, (100::double precision - b.ori) * 0.9::double precision AS rot, b.hali_txt, b.vali_txt
+FROM $$DBSCHEMA.bodenbedeckung_projobjektname a, $$DBSCHEMA.bodenbedeckung_projobjektnamepos b
+WHERE a.tid = b.projobjektnamepos_von;
+
+INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 'v_bb_objektnamen', 'pos', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.v_bb_objektnamen TO $$USER;
+
+
+CREATE OR REPLACE VIEW $$DBSCHEMA.v_eo_objektnamen AS
+SELECT b.ogc_fid, a.name, b.pos, st_x(b.pos) AS y, st_y(b.pos) AS x, (100::double precision - b.ori) * 0.9::double precision AS rot, b.hali_txt, b.vali_txt
+FROM $$DBSCHEMA.einzelobjekte_objektname a, $$DBSCHEMA.einzelobjekte_objektnamepos b
+WHERE a.tid = b.objektnamepos_von;
+
+INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 'v_eo_objektnamen', 'pos', 2, '21781', 'POINT'); 
+
+GRANT SELECT ON TABLE $$DBSCHEMA.v_eo_objektnamen TO $$USER;
+
+
+-- stehende gewässer < 100 m2
+CREATE TABLE $$DBSCHEMA.t_gewaesser_100 (ogc_fid serial NOT NULL, the_geom geometry, art_txt varchar, flaeche double precision, CONSTRAINT t_gewaesser_100_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_gewaesser_100', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_gewaesser_100 TO $$USER;
+
+INSERT INTO  $$DBSCHEMA.t_gewaesser_100 (the_geom, art_txt, flaeche) 
+SELECT ST_PointOnSurface(bb.geometrie) as the_geom, bb.art_txt, ST_Area(bb.geometrie) as Flaeche
+FROM $$DBSCHEMA.bodenbedeckung_boflaeche as bb
+WHERE bb.art = 24 AND ST_Area(bb.geometrie) < 100
+
+-- quellen
+CREATE TABLE $$DBSCHEMA.t_eo_quellen (ogc_fid serial NOT NULL, the_geom geometry, art_txt varchar, CONSTRAINT t_eo_quellen_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_eo_quellen', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_eo_quellen TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_eo_quellen (the_geom, art_txt)
+SELECT a.geometrie as the_geom, b.art_txt
+FROM $$DBSCHEMA.einzelobjekte_punktelement as a, $$DBSCHEMA.einzelobjekte_einzelobjekt as b
+WHERE a.punktelement_von = b.tid
+AND b.art = 43 
+
+
+-- BEBAUTES GEBIET
+-- kontrollraster bebautes gebiet
+CREATE TABLE $$DBSCHEMA.t_kontrollraster_baugebiet_500 (ogc_fid serial NOT NULL, kontrolliert boolean, the_geom geometry, CONSTRAINT t_kontrollraster_baugebiet_500_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_kontrollraster_baugebiet_500', 'the_geom', 2, '21781', 'POLYGON'); GRANT SELECT ON TABLE $$DBSCHEMA.t_kontrollraster_baugebiet_500 TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_kontrollraster_baugebiet_500 (kontrolliert, the_geom) SELECT FALSE, ST_SetSRID(st_translate(geom, 0 ,yseries),21781) as geom FROM (SELECT generate_series(0, dy, 500) as yseries, st_translate(geom, xseries, 0) as geom FROM (SELECT  generate_series(0, dx, 500) as xseries, dy, geom FROM (SELECT st_envelope(st_makeline(st_makepoint(xmin,ymin), st_makepoint(xmin+500,ymin+500))) as geom, ((xmax-xmin)::integer / 500::integer)*500 as dx, ((ymax-ymin)::integer / 500::integer)*500 as dy FROM (SELECT ST_XMin(geometrie) as xmin, ST_YMin(geometrie) as ymin, ST_XMax(geometrie) as xmax, ST_YMax(geometrie) as ymax FROM $$DBSCHEMA.gemeindegrenzen_gemeindegrenze) as s1) as t1) as t2) as t3;
+
+-- gebäude kleiner 6 m2
+CREATE TABLE $$DBSCHEMA.t_gebaeude_kleiner_6 (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, flaeche double precision, CONSTRAINT t_gebaeude_kleiner_6_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_gebaeude_kleiner_6', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_gebaeude_kleiner_6 TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_gebaeude_kleiner_6 (the_geom, art_txt, flaeche)
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt, ST_Area(geometrie) as flaeche
+FROM
+(
+ SELECT bb.geometrie, bb.art_txt 
+ FROM $$DBSCHEMA.bodenbedeckung_boflaeche bb 
+ WHERE bb.art = 0 and ST_Area(bb.geometrie) < 6
+
+EXCEPT
+
+ SELECT bb.geometrie, bb.art_txt 
+ FROM
+ (
+   SELECT * 
+   FROM $$DBSCHEMA.gebaeudeadressen_gebaeudeeingang 
+   WHERE hausnummer IS NOT NULL
+ ) geb,
+ (
+   SELECT * 
+   FROM  $$DBSCHEMA.bodenbedeckung_boflaeche bb 
+   WHERE bb.art= 0 and ST_Area(bb.geometrie) < 6
+ ) bb
+ WHERE bb.geometrie && geb.lage
+ AND ST_Intersects(bb.geometrie, geb.lage)
+) as a
+
+-- 2 eingänge in einem av-gebäude
+CREATE TABLE $$DBSCHEMA.t_2_gebein (ogc_fid serial NOT NULL, the_geom geometry, tid varchar, art_txt VARCHAR, hausnummer varchar, CONSTRAINT t_2_gebein_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_2_gebein', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_2_gebein TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_2_gebein (the_geom, tid, art_txt, hausnummer)
+SELECT ST_PointOnSurface(a.geometrie) as the_geom, tid, art_txt, hausnummer
+FROM
+(
+ SELECT bb.geometrie, bb.tid, bb.art_txt, ein.hausnummer 
+ FROM 
+ (
+   SELECT * 
+   FROM  $$DBSCHEMA.bodenbedeckung_boflaeche 
+   WHERE art = 0
+ ) as bb, 
+ (
+   SELECT * 
+   FROM $$DBSCHEMA.gebaeudeadressen_gebaeudeeingang 
+   WHERE hausnummer IS NOT NULL
+ ) as ein
+ WHERE bb.geometrie && ein.lage 
+ AND ST_Intersects(st_buffer(bb.geometrie, 0.1), ein.lage) 
+
+ EXCEPT
+
+ SELECT DISTINCT ON (bb.tid) bb.geometrie, bb.tid, bb.art_txt, ein.hausnummer 
+ FROM 
+ (
+   SELECT * FROM $$DBSCHEMA.bodenbedeckung_boflaeche 
+   WHERE art = 0
+ ) as bb, 
+ (
+   SELECT * 
+   FROM $$DBSCHEMA.gebaeudeadressen_gebaeudeeingang 
+   WHERE hausnummer IS NOT NULL
+ ) as ein
+ WHERE bb.geometrie && ein.lage 
+ AND ST_Intersects(st_buffer(bb.geometrie, 0.1), ein.lage) 
+) as a
+
+-- parkplatz kleiner 100
+CREATE TABLE $$DBSCHEMA.t_pp_kleiner_100 (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, flaeche double precision, CONSTRAINT t_pp_kleiner_100_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_pp_kleiner_100', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_pp_kleiner_100 TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_pp_kleiner_100 (the_geom, art_txt, flaeche)
+SELECT ST_PointOnSurface(bb.geometrie) as the_geom, bb.art_txt, ST_Area(bb.geometrie) as flaeche 
+FROM $$DBSCHEMA.bodenbedeckung_boflaeche bb
+WHERE bb.art = 11 
+AND ST_Area(bb.geometrie) < 100	
+
+-- BB.Gebäude ohne Gartenanlage
+CREATE TABLE $$DBSCHEMA.t_abgrenzung_gartenanlage (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, flaeche double precision, CONSTRAINT t_abgrenzung_gartenanlage_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_abgrenzung_gartenanlage', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_abgrenzung_gartenanlage TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_abgrenzung_gartenanlage (the_geom, art_txt, flaeche)
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt, ST_Area(geometrie) as flaeche
+FROM
+(
+ SELECT DISTINCT ON (bb_.tid) bb_.geometrie, bb_.art_txt 
+ FROM 
+ (
+   SELECT * 
+   FROM $$DBSCHEMA.bodenbedeckung_boflaeche 
+   WHERE art = 0 
+ ) bb_,
+ (
+   SELECT * 
+   FROM $$DBSCHEMA.bodenbedeckung_boflaeche garten 
+   WHERE art = 13 
+   OR art = 14
+ ) garten_ 
+
+ WHERE bb_.geometrie && garten_.geometrie 
+ AND ST_Intersects(st_buffer(bb_.geometrie, 0.5), garten_.geometrie)
+
+ EXCEPT
+
+ SELECT DISTINCT ON (bb_.tid) bb_.geometrie, bb_.art_txt 
+ FROM 
+ (
+   SELECT * 
+   FROM $$DBSCHEMA.bodenbedeckung_boflaeche 
+   WHERE art = 0 
+ ) bb_,
+ (
+   SELECT * 
+   FROM $$DBSCHEMA.bodenbedeckung_boflaeche garten 
+   WHERE art = 10 
+   OR art = 18 
+ ) garten_
+ WHERE bb_.geometrie && garten_.geometrie 
+ AND ST_Intersects(st_buffer(bb_.geometrie, 0.1), garten_.geometrie)
+) as a
+
+-- EO. Mauer freistehend
+CREATE TABLE $$DBSCHEMA.t_mauer_freistehend (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, CONSTRAINT t_mauer_freistehend_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_mauer_freistehend', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_mauer_freistehend TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_mauer_freistehend (the_geom, art_txt)
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt
+FROM
+(
+ SELECT geometrie, art_txt
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+ WHERE a.art = 0 
+ AND a.tid = b.flaechenelement_von
+
+ EXCEPT
+
+ SELECT a.geometrie, a.art_txt 
+ FROM  
+ (
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+  WHERE a.art = 0 
+  AND a.tid = b.flaechenelement_von
+ ) as a, 
+ (
+  SELECT * 
+  FROM $$DBSCHEMA.bodenbedeckung_boflaeche 
+  WHERE art = 0
+ ) as bb  
+ WHERE a.geometrie && bb.geometrie 
+ AND ST_Intersects(ST_Buffer(bb.geometrie, 0.5), a.geometrie)
+
+ EXCEPT
+
+ SELECT a.geometrie, a.art_txt 
+ FROM  
+ (
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+  WHERE a.art = 0 
+  AND a.tid = b.flaechenelement_von
+ ) as a, 
+ (
+  SELECT * 
+  FROM $$DBSCHEMA.bodenbedeckung_boflaeche 
+  WHERE art = 1 
+  OR art = 25
+ ) as bb  
+ WHERE a.geometrie && bb.geometrie 
+--AND ST_Intersects(ST_Buffer(bb.geometrie, 0.5), a.geometrie)
+ AND ST_Intersects(bb.geometrie, a.geometrie)
+
+ EXCEPT
+
+ SELECT a.geometrie, a.art_txt 
+ FROM  
+ (
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+  WHERE a.art = 0 
+  AND a.tid = b.flaechenelement_von
+ ) as a, 
+ (
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+  WHERE a.art = 5 
+  AND a.tid = b.flaechenelement_von
+ ) as a_t
+ WHERE a.geometrie && a_t.geometrie 
+ AND ST_Intersects(ST_Buffer(a_t.geometrie, 1), a.geometrie)
+
+ EXCEPT
+
+ SELECT a.geometrie, a.art_txt 
+ FROM  
+ (
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+  WHERE a.art = 0 
+  AND a.tid = b.flaechenelement_von
+ ) as a, 
+ (
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+  WHERE a.art = 2 
+  AND a.tid = b.flaechenelement_von
+ ) as a_t
+ WHERE a.geometrie && a_t.geometrie 
+ AND ST_Intersects(ST_Buffer(a_t.geometrie, 0.5), a.geometrie)
+) as z
+
+--EO.Linienelement Art=Mauer ausserhalb EO.Flächenelement Art=Mauer
+CREATE TABLE $$DBSCHEMA.t_mauer_ausserhalb (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, CONSTRAINT t_mauer_ausserhalb_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_mauer_ausserhalb', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_mauer_ausserhalb TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_mauer_ausserhalb (the_geom, art_txt)
+SELECT ST_Centroid(geometrie) as the_geom, art_txt
+FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_linienelement b
+WHERE a.art = 0 
+AND a.tid = b.linienelement_von
+
+EXCEPT
+
+SELECT ST_Centroid(a_li.geometrie) as the_geom, a_li.art_txt 
+FROM  
+(
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+  WHERE a.art = 0 
+  AND a.tid = b.flaechenelement_von
+) as a_fl, 
+(
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_linienelement b
+  WHERE a.art = 0 
+  AND a.tid = b.linienelement_von
+) as a_li
+WHERE a_li.geometrie && ST_Buffer(a_fl.geometrie, 0.1) 
+AND ST_Within(ST_Buffer(a_fl.geometrie, 0.1), a_li.geometrie)
+
+-- eo.mauer linienelement
+CREATE TABLE $$DBSCHEMA.t_mauer_linien (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, CONSTRAINT t_mauer_linien_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_mauer_linien', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_mauer_linien TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_mauer_linien (the_geom, art_txt)
+SELECT ST_Centroid(a_li.geometrie) as the_geom, a_li.art_txt 
+FROM  
+(
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+  WHERE a.art = 0 
+  AND a.tid = b.flaechenelement_von
+) as a_fl, 
+(
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_linienelement b
+  WHERE a.art = 0 
+  AND a.tid = b.linienelement_von
+) as a_li
+WHERE a_li.geometrie && ST_Buffer(a_fl.geometrie, 0.1) 
+AND ST_Within(ST_Buffer(a_fl.geometrie, 0.1), a_li.geometrie)
+
+
+-- eo.mauer wasserbecken
+CREATE TABLE $$DBSCHEMA.t_mauer_wasserbecken (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, CONSTRAINT t_mauer_wasserbecken_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_mauer_wasserbecken', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_mauer_wasserbecken TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_mauer_wasserbecken (the_geom, art_txt)
+SELECT DISTINCT ON (eo.tid) ST_PointOnSurface(bb.geometrie) as the_geom, bb.art_txt
+FROM 
+(
+ SELECT * 
+ FROM $$DBSCHEMA.bodenbedeckung_boflaeche 
+ WHERE art = 6
+) bb,
+(
+ SELECT b.tid, b.geometrie
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+ WHERE a.art = 0 
+ AND a.tid = b.flaechenelement_von
+) eo 
+WHERE bb.geometrie && eo.geometrie
+AND ST_Intersects(ST_Buffer(bb.geometrie, 0.5), eo.geometrie)
+
+-- modellbildung
+CREATE TABLE $$DBSCHEMA.t_eo_modellbildung (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, CONSTRAINT t_eo_modellbildung_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_eo_modellbildung', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_eo_modellbildung TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_eo_modellbildung (the_geom, art_txt)
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt
+FROM
+(
+ SELECT geometrie, art_txt, flaechenelement_von as ref_obj
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+ WHERE a.tid = b.flaechenelement_von
+
+ EXCEPT
+
+ SELECT DISTINCT ON(flaechenelement_von) geometrie, art_txt, flaechenelement_von as ref_obj
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+ WHERE a.tid = b.flaechenelement_von
+) as a
+
+UNION
+
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt
+FROM
+(
+ SELECT geometrie, art_txt, flaechenelement_von as ref_obj
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_liniennelement b
+ WHERE a.tid = b.liniennelement_von
+
+ EXCEPT
+
+ SELECT DISTINCT ON(liniennelement_von) geometrie, art_txt, flaechenelement_von as ref_obj
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_liniennelement b
+ WHERE a.tid = b.liniennelement_von
+) as a
+
+UNION
+
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt
+FROM
+(
+ SELECT geometrie, art_txt, punktelement_von as ref_obj
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_punktelement b
+ WHERE a.tid = b.punktelement_von
+
+ EXCEPT
+
+ SELECT DISTINCT ON(punktelement_von) geometrie, art_txt, punktelement_von as ref_obj
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_punktelement b
+ WHERE a.tid = b.punktelement_von
+) as a
+
+--EO.übriger Gebäudeteil <1.5m2
+CREATE TABLE $$DBSCHEMA.t_gebteil_15 (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, flaeche double precision, CONSTRAINT t_gebteil_15_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_gebteil_15', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_gebteil_15 TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_gebteil_15 (the_geom, art_txt, flaeche)
+SELECT ST_PointOnSurface(a.geometrie) as the_geom, a.art_txt, ST_Area(a.geometrie) as flaeche
+FROM
+(
+ SELECT * 
+ FROM $$DBSCHEMA.bodenbedeckung_boflaeche 
+ WHERE art =0
+) bb, 
+(
+ SELECT geometrie, art_txt, flaechenelement_von
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+ WHERE a.tid = b.flaechenelement_von
+ AND a.art = 3
+) as a
+
+WHERE ST_Area (a.geometrie) < 1.5 
+AND a.geometrie && ST_Buffer(bb.geometrie, 0.5) 
+AND ST_Intersects(ST_Buffer(bb.geometrie, 0.5), a.geometrie)
+
+
+-- EO.Pfeiler im Gebäude
+CREATE TABLE $$DBSCHEMA.t_pfeiler_gebaeude (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, CONSTRAINT t_pfeiler_gebaeude_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_pfeiler_gebaeude', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_pfeiler_gebaeude TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_pfeiler_gebaeude (the_geom, art_txt)
+SELECT ST_PointOnSurface(a.geometrie) as the_geom, a.art_txt
+FROM  
+(
+ SELECT * 
+ FROM $$DBSCHEMA.bodenbedeckung_boflaeche 
+ WHERE art = 0
+) bb, 
+(
+ SELECT geometrie, art_txt, flaechenelement_von
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+ WHERE a.tid = b.flaechenelement_von
+ AND a.art = 11
+) as a
+
+WHERE a.geometrie && st_buffer(bb.geometrie, 1) 
+AND ST_intersects(st_buffer(bb.geometrie, 1), a.geometrie)
+
+-- EO.Flächenelement Art=übriger Gebäudeteil im Gebäude
+CREATE TABLE $$DBSCHEMA.t_gebteil_geb (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, CONSTRAINT t_gebteil_geb_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_gebteil_geb', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_gebteil_geb TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_gebteil_geb (the_geom, art_txt)
+SELECT st_pointonsurface(a.geometrie) as the_geom, a.art_txt
+FROM  
+(
+ SELECT geometrie, art_txt, flaechenelement_von
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+ WHERE a.tid = b.flaechenelement_von
+ AND a.art = 3
+) as a, 
+(
+ SELECT * 
+ FROM $$DBSCHEMA.bodenbedeckung_boflaeche 
+ WHERE art = 0
+) as bb
+WHERE a.geometrie && ST_Buffer(bb.geometrie, -0.1)
+AND ST_Intersects(ST_Buffer(bb.geometrie,-0.1), a.geometrie)
+
+
+-- EO. Linienelement  Art=übriger Gebäudeteil ausserhalb des Gebäudes
+CREATE TABLE $$DBSCHEMA.t_gebteil_ausserhalb (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, CONSTRAINT t_gebteil_ausserhalb_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_gebteil_ausserhalb', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_gebteil_ausserhalb TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_gebteil_ausserhalb (the_geom, art_txt)
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt
+FROM
+(
+ SELECT geometrie, art_txt 
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_linienelement b
+ WHERE a.tid = b.linienelement_von
+ AND a.art = 3
+
+ EXCEPT
+
+ SELECT a.geometrie, a.art_txt
+ FROM
+ (
+  SELECT *
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_linienelement b
+  WHERE a.tid = b.linienelement_von
+  AND a.art = 3
+ ) as a, 
+ (
+  SELECT * 
+  FROM $$DBSCHEMA.bodenbedeckung_boflaeche 
+  WHERE art = 0
+ ) as bb
+ WHERE a.geometrie && bb.geometrie
+ AND ST_Contains(bb.geometrie, a.geometrie)
+) as z
+
+
+-- EO. Flächenelement "übriger Gebäudeteil" steht frei
+CREATE TABLE $$DBSCHEMA.t_gebteil_frei (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, CONSTRAINT t_gebteil_frei_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_gebteil_frei', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_gebteil_frei TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_gebteil_frei (the_geom, art_txt)
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt
+FROM
+(
+ SELECT a.geometrie, a.art_txt 
+ FROM
+ (
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+  WHERE a.tid = b.flaechenelement_von
+  AND a.art = 3
+ ) as a
+
+ EXCEPT
+
+ SELECT a.geometrie, a.art_txt
+ FROM  
+ (
+  SELECT geometrie, art_txt
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
+  WHERE a.tid = b.flaechenelement_von
+  AND a.art = 3 
+ ) as a, 
+ (
+  SELECT * 
+  FROM $$DBSCHEMA.bodenbedeckung_boflaeche 
+  WHERE art = 0
+ ) bb
+ WHERE a.geometrie && ST_Buffer(bb.geometrie, 0.1)
+ AND ST_Intersects(ST_Buffer(bb.geometrie, 0.1), a.geometrie)
+) as z
+
+
+--EO. Treppe nicht als ein Objekt erfasst
+CREATE TABLE $$DBSCHEMA.t_treppe_modellbildung (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, CONSTRAINT t_treppe_modellbildung_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_treppe_modellbildung', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_treppe_modellbildung TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_treppe_modellbildung (the_geom, art_txt)
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt
+FROM
+(
+ SELECT geometrie, art_txt 
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_linienelement b
+ WHERE a.tid = b.linienelement_von
+ AND a.art = 5
+
+EXCEPT
+
+SELECT a_li.geometrie, a_li.art_txt 
+FROM
+(
+ (
+  SELECT * 
+  FROM $$DBSCHEMA.einzelobjekte_einzelobjekt 
+  WHERE art = 5
+ ) eo 
+ LEFT JOIN $$DBSCHEMA.einzelobjekte_flaechenelement eo_fl ON eo.tid = eo_fl.flaechenelement_von
+) as a, 
+(
+ SELECT geometrie, art_txt, linienelement_von 
+ FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_linienelement b
+ WHERE a.tid = b.linienelement_von
+ AND a.art = 5
+) as a_li
+WHERE a.flaechenelement_von = a_li.linienelement_von 
+AND ST_Contains(ST_Buffer(a.geometrie, 0.5), a_li.geometrie)
+) as z
+
+
+-- EO Objektname u. oder u 
+CREATE TABLE $$DBSCHEMA.t_eoobj_u (ogc_fid serial NOT NULL, the_geom geometry, objname VARCHAR, CONSTRAINT t_eoobj_u_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_eoobj_u', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_eoobj_u TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_eoobj_u (the_geom, objname)
+SELECT p.pos as the_geom, n.name as objname 
+FROM 
+(
+ (
+  SELECT * 
+  FROM $$DBSCHEMA.einzelobjekte_objektname
+ ) n
+LEFT JOIN $$DBSCHEMA.einzelobjekte_objektnamepos p ON n.tid= p.objektnamepos_von 
+) 
+WHERE n.name = 'u' 
+OR n.name = 'u.'
+
+
+--BB Objektname u. oder u
+CREATE TABLE $$DBSCHEMA.t_bbobj_u (ogc_fid serial NOT NULL, the_geom geometry, objname VARCHAR, CONSTRAINT t_bbobj_u_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_bbobj_u', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_bbobj_u TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_bbobj_u (the_geom, objname)
+SELECT p.pos as the_geom, n.name as objname
+FROM 
+(
+ (
+  SELECT * 
+  FROM $$DBSCHEMA.bodenbedeckung_objektname
+ ) n
+LEFT JOIN $$DBSCHEMA.bodenbedeckung_objektnamepos p ON n.tid= p.objektnamepos_von 
+) 
+WHERE n.name='u' OR n.name='u.'
+
+
+-- BESTOCKTE FLÄCHE
+-- Kontrollraster
+CREATE TABLE $$DBSCHEMA.t_kontrollraster_bestockte_500 (ogc_fid serial NOT NULL, kontrolliert boolean, the_geom geometry, CONSTRAINT t_kontrollraster_bestockte_500_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_kontrollraster_bestockte_500', 'the_geom', 2, '21781', 'POLYGON'); GRANT SELECT ON TABLE $$DBSCHEMA.t_kontrollraster_bestockte_500 TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_kontrollraster_bestockte_500 (kontrolliert, the_geom) SELECT FALSE, ST_SetSRID(st_translate(geom, 0 ,yseries),21781) as geom FROM (SELECT generate_series(0, dy, 500) as yseries, st_translate(geom, xseries, 0) as geom FROM (SELECT  generate_series(0, dx, 500) as xseries, dy, geom FROM (SELECT st_envelope(st_makeline(st_makepoint(xmin,ymin), st_makepoint(xmin+500,ymin+500))) as geom, ((xmax-xmin)::integer / 500::integer)*500 as dx, ((ymax-ymin)::integer / 500::integer)*500 as dy FROM (SELECT ST_XMin(geometrie) as xmin, ST_YMin(geometrie) as ymin, ST_XMax(geometrie) as xmax, ST_YMax(geometrie) as ymax FROM $$DBSCHEMA.gemeindegrenzen_gemeindegrenze) as s1) as t1) as t2) as t3;
+
+-- schmale bestockte Fläche
+CREATE TABLE $$DBSCHEMA.t_schm_best_flaeche (ogc_fid serial NOT NULL, the_geom geometry, art_txt VARCHAR, CONSTRAINT t_schm_best_flaeche_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_schm_best_flaeche', 'the_geom', 2, '21781', 'POLYGON'); GRANT SELECT ON TABLE $$DBSCHEMA.t_schm_best_flaeche TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_schm_best_flaeche (the_geom, art_txt)
+SELECT geometrie as the_geom, art_txt
+FROM $$DBSCHEMA.einzelobjekte_einzelobjekt as a, $$DBSCHEMA.einzelobjekte_flaechenelement as b
+WHERE a.tid = b.flaechenelement_von
+AND art = 26
+
+
+-- LANDWIRTSCHAFT
+-- Kontrollraster
+CREATE TABLE $$DBSCHEMA.t_kontrollraster_landwirtschaft_500 (ogc_fid serial NOT NULL, kontrolliert boolean, the_geom geometry, CONSTRAINT t_kontrollraster_landwirtschaft_500_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_kontrollraster_landwirtschaft_500', 'the_geom', 2, '21781', 'POLYGON'); GRANT SELECT ON TABLE $$DBSCHEMA.t_kontrollraster_landwirtschaft_500 TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_kontrollraster_landwirtschaft_500 (kontrolliert, the_geom) SELECT FALSE, ST_SetSRID(st_translate(geom, 0 ,yseries),21781) as geom FROM (SELECT generate_series(0, dy, 500) as yseries, st_translate(geom, xseries, 0) as geom FROM (SELECT  generate_series(0, dx, 500) as xseries, dy, geom FROM (SELECT st_envelope(st_makeline(st_makepoint(xmin,ymin), st_makepoint(xmin+500,ymin+500))) as geom, ((xmax-xmin)::integer / 500::integer)*500 as dx, ((ymax-ymin)::integer / 500::integer)*500 as dy FROM (SELECT ST_XMin(geometrie) as xmin, ST_YMin(geometrie) as ymin, ST_XMax(geometrie) as xmax, ST_YMax(geometrie) as ymax FROM $$DBSCHEMA.gemeindegrenzen_gemeindegrenze) as s1) as t1) as t2) as t3;
+
+-- Kulturen < 1000 m2
+CREATE TABLE $$DBSCHEMA.t_kulturen_1000 (ogc_fid serial NOT NULL, the_geom geometry, art_txt varchar, flaeche double precision, CONSTRAINT t_kulturen_1000_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_kulturen_1000', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_kulturen_1000 TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_kulturen_1000 (the_geom, art_txt, flaeche)
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt, ST_Area(geometrie) as flaeche
+FROM $$DBSCHEMA.bodenbedeckung_boflaeche
+WHERE (art = 15 OR art = 16 OR art = 17)
+AND ST_Area(geometrie) < 1000
+
+-- Weide
+CREATE TABLE $$DBSCHEMA.t_weide (ogc_fid serial NOT NULL, the_geom geometry, art_txt varchar, flaeche double precision, CONSTRAINT t_weide_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_weide', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_weide TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_weide (the_geom, art_txt, flaeche)
+SELECT ST_PointOnSurface(geometrie)as the_geom, art_txt, ST_Area(geometrie) as flaeche 
+FROM $$DBSCHEMA.bodenbedeckung_boflaeche
+WHERE art = 14
+
+
+
+--SELTENE OBJEKTE
+--Böschungsbauwerke
+CREATE TABLE $$DBSCHEMA.t_boeschungbwerke (ogc_fid serial NOT NULL, the_geom geometry, art_txt varchar, flaeche double precision, CONSTRAINT t_boeschungbwerke_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_boeschungbwerke', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_boeschungbwerke TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_boeschungbwerke (the_geom, art_txt, flaeche)
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt, ST_Area(geometrie) as flaeche 
+FROM $$DBSCHEMA.bodenbedeckung_boflaeche
+WHERE art = 9
+
+--Brunnen
+CREATE TABLE $$DBSCHEMA.t_brunnen (ogc_fid serial NOT NULL, the_geom geometry, art_txt varchar, CONSTRAINT t_brunnen_pkey PRIMARY KEY (ogc_fid)) WITH (OIDS=FALSE); INSERT INTO geometry_columns VALUES ('''', '$$DBSCHEMA', 't_brunnen', 'the_geom', 2, '21781', 'POINT'); GRANT SELECT ON TABLE $$DBSCHEMA.t_brunnen TO $$USER;
+
+INSERT INTO $$DBSCHEMA.t_brunnen (the_geom, art_txt)
+SELECT ST_PointOnSurface(geometrie) as the_geom, art_txt
+FROM $$DBSCHEMA.einzelobjekte_einzelobjekt as a, $$DBSCHEMA.einzelobjekte_flaechenelement as b
+WHERE art = 9
+AND a.tid = b.flaechenelement_von

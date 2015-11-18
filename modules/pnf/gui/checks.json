@@ -1,0 +1,323 @@
+{
+  "checks": [
+    {
+      "id": "alle_checks",
+      "topic_order": 10,
+      "order": 10, 
+      "name": "Alle Checks", 
+      "topic": "Strasse",
+      "file": "complexchecks.strasse_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "topic_order": 10,
+      "order": 20, 
+      "name": "separator",       
+      "topic": "Strasse"      
+    },     
+    {
+      "id": "strasse_maengel", 
+      "topic_order": 10,
+      "order": 30, 
+      "name": "Mängel", 
+      "topic": "Strasse",
+      "file": "complexchecks.strasse_maengel"
+    },     
+    {
+      "id": "strasse_checklayer", 
+      "topic_order": 10,
+      "order": 40, 
+      "name": "Checklayer", 
+      "group": "Checklayer - Strasse", 
+      "topic": "Strasse",
+      "file": "complexchecks.strasse_checklayer"
+    },     
+    {
+      "id": "strasse_lagekontrolle",
+      "topic_order": 10,
+      "order": 50,  
+      "name": "Lagekontrolle", 
+      "group": "Lagekontrolle - Strasse", 
+      "topic": "Strasse",
+      "file": "complexchecks.strasse_lagekontrolle"
+    },         
+    {
+      "id": "alle_checks", 
+      "topic_order": 20,
+      "order": 10, 
+      "name": "Alle Checks", 
+      "topic": "Bahn",
+      "file": "complexchecks.bahn_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "topic_order": 20,
+      "order": 20, 
+      "name": "separator",       
+      "topic": "Bahn"      
+    },     
+    {
+      "id": "bahn_maengel", 
+      "name": "Mängel",
+      "topic_order": 20,
+      "order": 30,  
+      "topic": "Bahn",
+      "file": "complexchecks.bahn_maengel"
+    },  
+    {
+      "id": "bahn_checklayer", 
+      "name": "Checklayer", 
+      "topic_order": 20,
+      "order": 35, 
+      "group": "Checklayer - Bahn", 
+      "topic": "Bahn",
+      "file": "complexchecks.bahn_checklayer"
+    },   
+    {
+      "id": "bahn_lagekontrolle", 
+      "name": "Lagekontrolle", 
+      "topic_order": 20,
+      "order": 40, 
+      "group": "Lagekontrolle - Bahn", 
+      "topic": "Bahn",
+      "file": "complexchecks.bahn_lagekontrolle"
+    },
+    {
+      "id": "alle_checks", 
+      "topic_order": 30,
+      "order": 10, 
+      "name": "Alle Checks", 
+      "topic": "Gewässer",
+      "file": "complexchecks.gewaesser_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "topic_order": 30,
+      "order": 20, 
+      "name": "separator",       
+      "topic": "Gewässer"      
+    },     
+    {
+      "id": "gewaesser_maengel", 
+      "topic_order": 30,
+      "order": 30, 
+      "name": "Mängel", 
+      "topic": "Gewässer",
+      "file": "complexchecks.gewaesser_maengel"
+    },     
+    {
+      "id": "gewaesser_checklayer",
+      "topic_order": 30,
+      "order": 40,  
+      "name": "Checklayer", 
+      "group": "Checklayer - Gewässer", 
+      "topic": "Gewässer",
+      "file": "complexchecks.gewaesser_checklayer"
+    },     
+    {
+      "id": "gewaesser_lagekontrolle", 
+      "topic_order": 30,
+      "order": 50, 
+      "name": "Lagekontrolle", 
+      "group": "Lagekontrolle - Gewässer", 
+      "topic": "Gewässer",
+      "file": "complexchecks.gewaesser_lagekontrolle"
+    },
+    {
+      "id": "alle_checks", 
+      "topic_order": 40,
+      "order": 10, 
+      "name": "Alle Checks", 
+      "topic": "Bebautes Gebiet",
+      "file": "complexchecks.baugebiet_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "topic_order": 40,
+      "order": 20, 
+      "name": "separator",       
+      "topic": "Bebautes Gebiet"      
+    },     
+    {
+      "id": "baugebiet_maengel", 
+      "topic_order": 40,
+      "order": 30, 
+      "name": "Mängel", 
+      "topic": "Bebautes Gebiet",
+      "file": "complexchecks.baugebiet_maengel"
+    },     
+    {
+      "id": "baugebiet_checklayer", 
+      "topic_order": 40,
+      "order": 40, 
+      "name": "Checklayer", 
+      "group": "Checklayer - Bebautes Gebiet", 
+      "topic": "Bebautes Gebiet",
+      "file": "complexchecks.baugebiet_checklayer"
+    },     
+    {
+      "id": "baugebiet_lagekontrolle", 
+      "topic_order": 40,
+      "order": 50, 
+      "name": "Lagekontrolle", 
+      "group": "Lagekontrolle - Bebautes Gebiet", 
+      "topic": "Bebautes Gebiet",
+      "file": "complexchecks.baugebiet_lagekontrolle"
+    },
+    {
+      "id": "alle_checks", 
+      "topic_order": 50,
+      "order": 10, 
+      "name": "Alle Checks", 
+      "topic": "Bestockte Fläche",
+      "file": "complexchecks.bestockt_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "topic_order": 50,
+      "order": 20, 
+      "name": "separator",       
+      "topic": "Bestockte Fläche"      
+    },     
+    {
+      "id": "baugebiet_maengel", 
+      "topic_order": 50,
+      "order": 30, 
+      "name": "Mängel", 
+      "topic": "Bestockte Fläche",
+      "file": "complexchecks.bestockt_maengel"
+    },     
+    {
+      "id": "baugebiet_checklayer", 
+      "topic_order": 50,
+      "order": 40, 
+      "name": "Checklayer", 
+      "group": "Checklayer - Bestockte Fläche", 
+      "topic": "Bestockte Fläche",
+      "file": "complexchecks.bestockt_checklayer"
+    },     
+    {
+      "id": "baugebiet_lagekontrolle", 
+      "topic_order": 50,
+      "order": 50, 
+      "name": "Lagekontrolle", 
+      "group": "Lagekontrolle - Bestockte Fläche", 
+      "topic": "Bestockte Fläche",
+      "file": "complexchecks.bestockt_lagekontrolle"
+    },
+    {
+      "id": "alle_checks", 
+      "topic_order": 60,
+      "order": 10, 
+      "name": "Alle Checks", 
+      "topic": "Landwirtschaft",
+      "file": "complexchecks.landwirtschaft_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "topic_order": 60,
+      "order": 20, 
+      "name": "separator",       
+      "topic": "Landwirtschaft"      
+    },     
+    {
+      "id": "landwirtschaft_maengel", 
+      "topic_order": 60,
+      "order": 30, 
+      "name": "Mängel", 
+      "topic": "Landwirtschaft",
+      "file": "complexchecks.landwirtschaft_maengel"
+    },     
+    {
+      "id": "landwirtschaft_checklayer", 
+      "topic_order": 60,
+      "order": 40, 
+      "name": "Checklayer", 
+      "group": "Checklayer - Landwirtschaft", 
+      "topic": "Landwirtschaft",
+      "file": "complexchecks.landwirtschaft_checklayer"
+    },     
+    {
+      "id": "landwirtschaft_lagekontrolle", 
+      "topic_order": 60,
+      "order": 50, 
+      "name": "Lagekontrolle", 
+      "group": "Lagekontrolle - Landwirtschaft", 
+      "topic": "Landwirtschaft",
+      "file": "complexchecks.landwirtschaft_lagekontrolle"
+    },
+    {
+      "id": "alle_checks", 
+      "topic_order": 70,
+      "order": 10, 
+      "name": "Alle Checks", 
+      "topic": "Seltene Objekte",
+      "file": "complexchecks.seltene_objekte_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "topic_order": 70,
+      "order": 20, 
+      "name": "separator",       
+      "topic": "Seltene Objekte"      
+    },     
+    {
+      "id": "seltene_objekte_maengel", 
+      "topic_order": 70,
+      "order": 30, 
+      "name": "Mängel", 
+      "topic": "Seltene Objekte",
+      "file": "complexchecks.seltene_objekte_maengel"
+    },     
+    {
+      "id": "seltene_objekte_checklayer", 
+      "topic_order": 70,
+      "order": 40, 
+      "name": "Checklayer", 
+      "group": "Checklayer - Seltene Objekte", 
+      "topic": "Seltene Objekte",
+      "file": "complexchecks.seltene_objekte_checklayer"
+    },     
+    {
+      "id": "seltene_objekte_lagekontrolle", 
+      "topic_order": 70,
+      "order": 50, 
+      "name": "Lagekontrolle", 
+      "group": "Lagekontrolle - Seltene Objekte", 
+      "topic": "Seltene Objekte",
+      "file": "complexchecks.seltene_objekte_lagekontrolle"
+    },
+    {
+      "id": "alle_checks", 
+      "topic_order": 80,
+      "order": 10, 
+      "name": "Alle Checks", 
+      "topic": "Perimeterrand",
+      "file": "complexchecks.perimeterrand_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "topic_order": 80,
+      "order": 20, 
+      "name": "separator",       
+      "topic": "Perimeterrand"      
+    },     
+    {
+      "id": "perimeterrand_maengel", 
+      "topic_order": 80,
+      "order": 30, 
+      "name": "Mängel", 
+      "topic": "Perimeterrand",
+      "file": "complexchecks.perimeterrand_maengel"
+    },     
+    {
+      "id": "perimeterrand_checklayer", 
+      "topic_order": 80,
+      "order": 40, 
+      "name": "Checklayer", 
+      "group": "Checklayer - Perimeterrand", 
+      "topic": "Perimeterrand",
+      "file": "complexchecks.perimeterrand_checklayer"
+    }
+  ]
+}

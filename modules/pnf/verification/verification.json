@@ -1,0 +1,12 @@
+{
+  "verification": [
+    {
+      "topic": "Differenz",
+      "file": "verifikation_differenz"
+    },
+    {
+      "topic": "Strassenachsen",
+      "file": "verifikation_strassenachsen"
+    }
+  ]
+}

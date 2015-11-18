@@ -1,0 +1,17 @@
+{
+  "verification": [
+
+    {
+      "id": "differenzlayer_erzeugen", 
+      "name": "Differenzlayer erzeugen", 
+      "group": "Differenz", 
+      "file": "complexchecks.differenzlayer_erzeugen"
+    },     
+    {
+      "id": "differenzlayer_anzeigen", 
+      "name": "Differenzlayer anzeigen", 
+      "group": "Differenz", 
+      "file": "complexchecks.differenzlayer_anzeigen"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+    "modules": [
+        {
+            "dirname": "pnf",
+            "displayname": "Periodische Nachführung"
+        }
+    ]
+}

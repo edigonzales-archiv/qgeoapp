@@ -1,0 +1,36 @@
+{
+    "modules": [
+        {
+            "dirname": "qav",
+            "displayname": "Amtliche Vermessung"
+        },        {
+            "dirname": "qnplso",
+            "displayname": "Nutzungsplanung"
+        },
+        {
+            "dirname": "qabw",
+            "displayname": "Abwasser"
+        },
+        {
+            "dirname": "qveriso",
+            "displayname": "Verifikation",
+            "submodules": [
+                {
+                    "id": "ortsplanung",
+                    "dirname": "ortsplanung10",
+                    "displayname": "Ortsplanung V.10"
+                },
+                {
+                    "id": "pnf",
+                    "dirname": "pnf",
+                    "displayname": "PNF/Homogen."
+                },
+                {
+                    "id": "dm01gebadr",
+                    "dirname": "dm01gebadr",
+                    "displayname": "DM01/Geb.adr."
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,47 @@
+CREATE ROLE qgeoapp CREATEDB LOGIN PASSWORD 'qgeoapp';
+CREATE ROLE mspublic LOGIN PASSWORD 'mspublic';
+
+createdb --owner qgeoapp qgeoapp
+
+ALTER SCHEMA public OWNER TO qgeoapp;
+
+# nur super user kann in untrusted language funktionen erzeugen
+psql -d qgeoapp -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
+psql -d qgeoapp -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
+
+GRANT ALL ON SCHEMA public TO qgeoapp;
+
+ALTER TABLE geometry_columns OWNER TO qgeoapp;
+GRANT ALL ON geometry_columns TO qgeoapp;
+GRANT ALL ON spatial_ref_sys TO qgeoapp;
+GRANT ALL ON geography_columns TO qgeoapp;
+
+GRANT SELECT ON geometry_columns TO mspublic;
+GRANT SELECT ON spatial_ref_sys TO mspublic;
+GRANT SELECT ON geography_columns TO mspublic;
+
+******
+
+CREATE ROLE ebsoadmin CREATEDB LOGIN PASSWORD 'ebsoadmin';
+CREATE ROLE ebsopublic LOGIN PASSWORD 'ebsopublic';
+
+createdb --owner ebsoadmin pnfebso
+createlang plpgsql pnfebso
+
+ALTER SCHEMA public OWNER TO ebsoadmin;
+
+# nur super user kann in untrusted language funktionen erzeugen
+psql -d pnfebso -f /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
+psql -d pnfebso -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
+
+GRANT ALL ON SCHEMA public TO ebsoadmin;
+
+ALTER TABLE geometry_columns OWNER TO ebsoadmin;
+GRANT ALL ON geometry_columns TO ebsoadmin;
+GRANT ALL ON spatial_ref_sys TO ebsoadmin;
+GRANT ALL ON geography_columns TO ebsoadmin;
+
+GRANT SELECT ON geometry_columns TO ebsopublic;
+GRANT SELECT ON spatial_ref_sys TO ebsopublic;
+GRANT SELECT ON geography_columns TO ebsopublic;
+

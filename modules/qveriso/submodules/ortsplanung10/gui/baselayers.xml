@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<baselayers>
+
+    <baselayer id="avwms_sw" title="AV-WMS (sw)" type="wms">
+        <url>http://www.sogeo.ch/cgi-bin/avwms/qgis_mapserv.fcgi</url>
+        <layers>AVWMS_sw</layers>
+        <format>image/jpeg</format>
+        <crs>EPSG:21781</crs>
+    </baselayer>    
+
+    <baselayer id="avwms_color" title="AV-WMS (farbig)" type="wms">
+        <url>http://www.sogeo.ch/cgi-bin/avwms/qgis_mapserv.fcgi</url>
+        <layers>AVWMS_farbig</layers>
+        <format>image/jpeg</format>
+        <crs>EPSG:21781</crs>
+    </baselayer>      
+    
+    <baselayer id="ortho12" title="Orthofoto 2012" type="wms">
+        <url>http://www.sogeo.ch/geoserver/ortho/wms</url>
+        <layers>ortho:ortho2011rgb</layers>
+        <format>image/jpeg</format>
+        <crs>EPSG:21781</crs>
+    </baselayer>    
+
+</baselayers>

@@ -1,0 +1,19 @@
+{
+    "presentations": [
+        {
+            "id": "pfdgbsw",
+            "displayname": "Plan für das Grundbuch (sw)",
+            "file": "pfdgbsw.json"
+        },
+        {
+            "id": "pfdgbcolor",
+            "displayname": "Plan für das Grundbuch (farbig)",
+            "file": "pfdgbcolor.json"
+        },      
+        {
+            "id": "liegenschaften_rechtsgueltig",
+            "displayname": "Liegenschaften (rechtsgültig)",
+            "file": "liegenschaften_rechtsgueltig.json"
+        }
+    ]
+}

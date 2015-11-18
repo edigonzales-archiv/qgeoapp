@@ -1,0 +1,11 @@
+{
+    "modules": [
+        {
+            "dirname": "pnf",
+            "displayname": "Periodische Nachführung"
+        },        {
+            "dirname": "qnplso",
+            "displayname": "Nutzungsplanung"
+        }
+    ]
+}

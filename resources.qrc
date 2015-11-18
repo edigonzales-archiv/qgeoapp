@@ -1,0 +1,6 @@
+<RCC> 
+  <qresource prefix="/plugins/qgeoapp" > 
+    <file>qgeoapp.png</file> 
+  </qresource> 
+</RCC> 
+

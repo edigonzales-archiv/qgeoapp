@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checks>
+
+  <check id="grundnutzung_test" title="Übersicht" group="Zonen_Grundnutzung" topic="Zonen_Grundnutzung" type="complex">
+    <file>complexchecks.zonen_grundnutzung</file>
+  </check>
+  
+  <check id="fixpunktekategorie2" title="Übersicht" group="Fixpunktekategorie2" topic="Fixpunktekategorie2" type="complex">
+    <file>complexchecks.fp2</file>
+  </check>  
+  
+  <check id="fixpunktekategorie3" title="Übersicht" group="Fixpunktekategorie3" topic="Fixpunktekategorie3" type="complex">
+    <file>complexchecks.fp3</file>
+  </check> 
+  
+  <check id="bb_eo_basis" title="Basislayer" group="Bodenbedeckung u. Einzelobjekte - Basislayer" topic="Bodenbedeckung_Einzelobjekte" type="complex">
+    <file>complexchecks.bb_eo_basislayer</file>
+  </check>   
+  
+  <check id="bb_eo_check" title="Checklayer" group="Bodenbedeckung u. Einzelobjekte - Checklayer" topic="Bodenbedeckung_Einzelobjekte" type="complex">
+    <file>complexchecks.bb_eo_checklayer</file>
+  </check>     
+  
+  <check id="hoehen" title="Übersicht" group="Hoehen" topic="Hoehen" type="complex">
+    <file>complexchecks.hoehen</file>
+  </check>     
+  
+  <check id="nomenklatur" title="Übersicht" group="Nomenklatur" topic="Nomenklatur" type="complex">
+    <file>complexchecks.nomenklatur</file>
+  </check>       
+  
+  <check id="liegenschaft_basis" title="Basislayer" group="Liegenschaften - Basislayer" topic="Liegenschaften" type="complex">
+    <file>complexchecks.ls_basislayer</file>
+  </check>    
+  
+  <check id="liegenschaft_check" title="Checklayer" group="Liegenschaften - Checklayer" topic="Liegenschaften" type="complex">
+    <file>complexchecks.ls_checklayer</file>
+  </check>      
+  
+  <check id="rohrleitungen" title="Übersicht" group="Rohrleitungen" topic="Rohrleitungen" type="complex">
+    <file>complexchecks.rohrleitungen</file>
+  </check>      
+  
+  <check id="nummerierungsbereiche" title="Übersicht" group="Nummerierungsbereiche" topic="Nummerierungsbereiche" type="complex">
+    <file>complexchecks.nummerierungsbereiche</file>
+  </check>    
+  
+  <check id="hoheitsgrenzen" title="Übersicht" group="Hoheitsgrenzen" topic="Hoheitsgrenzen" type="complex">
+    <file>complexchecks.hoheitsgrenzen</file>
+  </check>   
+  
+  <check id="planeinteilung" title="Übersicht" group="Planeinteilung" topic="Planeinteilung" type="complex">
+    <file>complexchecks.planeinteilung</file>
+  </check>   
+  
+  <check id="tseinteilung" title="Übersicht" group="TSEinteilung" topic="TSEinteilung" type="complex">
+    <file>complexchecks.tseinteilung</file>
+  </check>     
+  
+  <check id="gebaeudeadressen_basis" title="Basislayer" group="Gebaeudeadressen - Basislayer" topic="Gebaeudeadressen" type="complex">
+    <file>complexchecks.gebaeudeadressen_basislayer</file>
+  </check>   
+  
+  <check id="gebaeudeadressen_check" title="Checklayer" group="Gebaeudeadressen - Checklayer" topic="Gebaeudeadressen" type="complex">
+    <file>complexchecks.gebaeudeadressen_checklayer</file>
+  </check>    
+  
+  <check id="gebaeudeadressen_lokalisations" title="Lokalisations-Test" group="Gebaeudeadressen - Lokalisations-Test" topic="Gebaeudeadressen" type="complex">
+    <file>complexchecks.gebaeudeadressen_lokalisation</file>
+    <shortcut>F12</shortcut>
+  </check>      
+  
+  <check id="gebaeudeadressen_import_gwr" title="GWR importieren" group="Gebaeudeadressen - GWR Import" topic="Gebaeudeadressen" type="complex">
+    <file>complexchecks.gebaeudeadressen_import_gwr</file>
+  </check>    
+
+  <check id="gebaeudeadressen_anzeigen_gwr" title="GWR anzeigen" group="Gebaeudeadressen - GWR Übersicht" topic="Gebaeudeadressen" type="complex">
+    <file>complexchecks.gebaeudeadressen_anzeigen_gwr</file>
+  </check>   
+  
+  <check id="gebaeudeadressen_export_gwr" title="GWR exportieren" group="Gebaeudeadressen - GWR Export" topic="Gebaeudeadressen" type="complex">
+    <file>complexchecks.gebaeudeadressen_export_gwr</file>
+  </check>     
+
+  <check id="gebaeudeadressen_vergleich_gwr_verifikation" title="AV-GWR Vergleich berechnen (Verifikation)" group="Gebaeudeadressen - GWR-AV Vergleich Verifikation" topic="Gebaeudeadressen" type="complex">
+    <file>complexchecks.gebaeudeadressen_vergleich_berechnen_gwr_verifikation</file>
+  </check>    
+  
+  <check id="gebaeudeadressen_anzeigen_gwr_verifikation" title="AV-GWR anzeigen (Verifikation)" group="Gebaeudeadressen - GWR Verifikation" topic="Gebaeudeadressen" type="complex">
+    <file>complexchecks.gebaeudeadressen_anzeigen_av_egid_edid_verifikation</file>
+  </check>     
+  
+  <check id="planrahmen" title="Übersicht" group="Planrahmen" topic="Planrahmen" type="complex">
+    <file>complexchecks.planrahmen</file>
+  </check>     
+  
+  <check id="topologiefehler" title="Übersicht" group="Topologiefehler" topic="Topologiefehler" type="complex">
+    <file>complexchecks.topologiefehler</file>
+  </check>    
+  
+</checks>

@@ -1,0 +1,40 @@
+{
+    "featuretypes": [
+        {
+            "featuretype": "liegenschaften_liegenschaft",
+            "title": "Liegenschaften rechtsgültig",
+            "group": "Liegenschaften",
+            "geom": "geometrie",
+            "key": "ogc_fid",
+            "style": "pfdgbsw/liegenschaften.qml",
+            "readonly": "true"
+        },
+        {
+            "featuretype": "liegenschaften_grenzpunkt",
+            "title": "Grenzpunkte",
+            "group": "Liegenschaften",
+            "geom": "geometrie",
+            "key": "ogc_fid",            
+            "style": "pfdgbsw/grenzpunkte.qml",
+            "readonly": "true"
+        },
+        {
+            "featuretype": "bodenbedeckung_boflaeche",
+            "title": "BoFlaeche",
+            "group": "Bodenbedeckung",
+            "geom": "geometrie",
+            "key": "ogc_fid",            
+            "style": "pfdgbsw/liegenschaften.qml",
+            "readonly": "true"
+        },
+        {
+            "featuretype": "bodenbedeckung_projboflaeche",
+            "title": "Proj. Bodenbedeckung",
+            "group": "Bodenbedeckung",
+            "geom": "geometrie",
+            "key": "ogc_fid",            
+            "style": "pfdgbsw/liegenschaften.qml",
+            "readonly": "true"
+        }
+    ]
+}
